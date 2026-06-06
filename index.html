@@ -36,8 +36,6 @@
     overflow-x: hidden;
     cursor: none;
   }
-  
-  /* Lock scroll while envelope is active */
   body.locked { overflow: hidden; }
 
   /* ── CUSTOM CURSOR ── */
@@ -60,8 +58,14 @@
     transform: translate(-50%,-50%);
     transition: width .4s, height .4s, border-color .4s;
   }
-  body:has(a:hover) #cursor, body:has(button:hover) #cursor, body:has(.project-card:hover) #cursor, body:has(.env-wrapper:hover) #cursor { width: 22px; height: 22px; background: var(--purple); }
-  body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring, body:has(.project-card:hover) #cursor-ring, body:has(.env-wrapper:hover) #cursor-ring { width: 54px; height: 54px; border-color: var(--purple); }
+  body:has(a:hover) #cursor,
+  body:has(button:hover) #cursor,
+  body:has(.project-card:hover) #cursor,
+  body:has(.env-wrapper:hover) #cursor { width: 22px; height: 22px; background: var(--purple); }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring,
+  body:has(.project-card:hover) #cursor-ring,
+  body:has(.env-wrapper:hover) #cursor-ring { width: 54px; height: 54px; border-color: var(--purple); }
 
   /* ── NOISE OVERLAY ── */
   body::before {
@@ -86,9 +90,7 @@
     perspective: 1200px;
     transition: transform 0.4s;
   }
-  .env-wrapper:hover {
-    transform: translateY(-5px) scale(1.02);
-  }
+  .env-wrapper:hover { transform: translateY(-5px) scale(1.02); }
   .env-back {
     position: absolute; inset: 0;
     background: var(--card);
@@ -112,9 +114,7 @@
     background: linear-gradient(135deg, var(--blue), var(--purple));
     margin-bottom: 8px;
   }
-  .env-letter-line {
-    height: 6px; background: rgba(0,0,0,0.1); border-radius: 4px;
-  }
+  .env-letter-line { height: 6px; background: rgba(0,0,0,0.1); border-radius: 4px; }
   .env-letter-line.long { width: 100%; }
   .env-letter-line.short { width: 65%; }
   .env-front {
@@ -151,8 +151,7 @@
     position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);
     z-index: 5; color: var(--text); font-family: var(--ff-head); font-size: 1.4rem;
     font-weight: 800; text-align: center; pointer-events: none;
-    transition: opacity 0.3s;
-    width: 100%;
+    transition: opacity 0.3s; width: 100%;
   }
   .env-sub {
     font-size: 0.75rem; color: var(--blue); letter-spacing: 0.15em; text-transform: uppercase;
@@ -160,12 +159,9 @@
     animation: envPulse 2s infinite;
   }
   @keyframes envPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-  /* Envelope Open State Animations */
   .env-wrapper.open .env-flap-wrap { transform: rotateX(180deg); }
   .env-wrapper.open .env-message { opacity: 0; }
   .env-wrapper.open .env-letter { transform: translateY(-80px); }
-
 
   /* ── NAV ── */
   nav {
@@ -181,10 +177,7 @@
     border-bottom: 1px solid var(--border);
   }
   .nav-logo {
-    font-family: var(--ff-head);
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: .04em;
+    font-family: var(--ff-head); font-size: 1.15rem; font-weight: 800; letter-spacing: .04em;
     background: linear-gradient(135deg, var(--blue), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     text-decoration: none;
@@ -192,9 +185,7 @@
   .nav-links { display: flex; gap: 2.2rem; list-style: none; }
   .nav-links a {
     font-size: .82rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none;
-    transition: color .25s;
-    position: relative;
+    color: var(--muted); text-decoration: none; transition: color .25s; position: relative;
   }
   .nav-links a::after {
     content: ''; position: absolute; bottom: -3px; left: 0; right: 100%;
@@ -208,21 +199,13 @@
   /* ── SECTIONS SHARED ── */
   section { position: relative; overflow: hidden; }
   .section-label {
-    font-size: .7rem; font-weight: 600; letter-spacing: .25em;
-    text-transform: uppercase; color: var(--blue);
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: .75rem;
+    font-size: .7rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1rem; display: flex; align-items: center; gap: .75rem;
   }
-  .section-label::before {
-    content: ''; display: block; width: 28px; height: 1px; background: var(--blue);
-  }
+  .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--blue); }
   h2.section-title {
-    font-family: var(--ff-head);
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -.02em;
-    margin-bottom: 1.2rem;
+    font-family: var(--ff-head); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800;
+    line-height: 1.05; letter-spacing: -.02em; margin-bottom: 1.2rem;
   }
   .gradient-text {
     background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 60%, var(--cyan) 100%);
@@ -231,19 +214,14 @@
 
   /* ── BTN ── */
   .btn {
-    display: inline-flex; align-items: center; gap: .6rem;
-    padding: .85rem 2.2rem;
-    border-radius: 3px;
-    font-family: var(--ff-head); font-size: .88rem; font-weight: 700;
-    letter-spacing: .06em; text-transform: uppercase;
-    text-decoration: none; cursor: pointer; border: none;
-    transition: all .3s;
-    position: relative; overflow: hidden;
+    display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 2.2rem;
+    border-radius: 3px; font-family: var(--ff-head); font-size: .88rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
+    cursor: pointer; border: none; transition: all .3s; position: relative; overflow: hidden;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--blue), var(--purple));
-    color: #fff;
-    box-shadow: 0 0 28px var(--glow-b);
+    color: #fff; box-shadow: 0 0 28px var(--glow-b);
   }
   .btn-primary::after {
     content: ''; position: absolute; inset: 0;
@@ -255,57 +233,33 @@
   .btn-primary span { position: relative; z-index: 1; }
 
   /* ── ① HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 0 6vw;
-  }
-  #hero-canvas {
-    position: absolute; inset: 0; z-index: 0;
-    pointer-events: none;
-  }
+  #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 6vw; }
+  #hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
   .hero-inner { position: relative; z-index: 2; max-width: 820px; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: .5rem;
     background: rgba(79,110,255,0.1); border: 1px solid var(--border);
     padding: .4rem 1.1rem; border-radius: 40px;
     font-size: .75rem; font-weight: 500; letter-spacing: .1em;
-    color: var(--blue); margin-bottom: 2rem;
-    text-transform: uppercase;
+    color: var(--blue); margin-bottom: 2rem; text-transform: uppercase;
   }
   .hero-badge::before { content: '●'; font-size: .5rem; animation: blink 2s infinite; }
   @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .2; } }
   h1.hero-name {
-    font-family: var(--ff-head);
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    font-weight: 800;
-    line-height: .95;
-    letter-spacing: -.04em;
-    margin-bottom: .6rem;
+    font-family: var(--ff-head); font-size: clamp(3.5rem, 10vw, 8rem); font-weight: 800;
+    line-height: .95; letter-spacing: -.04em; margin-bottom: .6rem;
   }
   .hero-sub {
-    font-size: clamp(.9rem, 2vw, 1.15rem);
-    color: var(--muted);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    font-weight: 300;
-    margin-bottom: 2.8rem;
+    font-size: clamp(.9rem, 2vw, 1.15rem); color: var(--muted); letter-spacing: .08em;
+    text-transform: uppercase; font-weight: 300; margin-bottom: 2.8rem;
   }
-  .hero-dots {
-    display: flex; align-items: center; justify-content: center; gap: .8rem;
-    margin-bottom: 2.8rem;
-  }
-  .hero-dots span {
-    width: 4px; height: 4px; border-radius: 50%;
-    background: var(--blue);
-  }
+  .hero-dots { display: flex; align-items: center; justify-content: center; gap: .8rem; margin-bottom: 2.8rem; }
+  .hero-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--blue); }
   .hero-dots span:nth-child(2) { background: var(--purple); width: 6px; height: 6px; }
   .hero-dots span:nth-child(3) { background: var(--cyan); }
   .hero-scroll {
     position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: .6rem;
-    z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: .6rem; z-index: 2;
     font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
   }
   .hero-scroll-line {
@@ -313,37 +267,29 @@
     background: linear-gradient(to bottom, var(--blue), transparent);
     animation: scrollLine 1.8s ease-in-out infinite;
   }
-  @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-
-  /* MESH BG */
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
   .mesh-bg {
     position: absolute; inset: 0;
     background:
       radial-gradient(ellipse 70% 60% at 20% 50%, rgba(79,110,255,0.07) 0%, transparent 70%),
       radial-gradient(ellipse 55% 50% at 80% 30%, rgba(139,92,246,0.06) 0%, transparent 70%),
       radial-gradient(ellipse 40% 40% at 50% 80%, rgba(34,211,238,0.04) 0%, transparent 70%);
-    z-index: 1;
-    pointer-events: none;
+    z-index: 1; pointer-events: none;
   }
 
   /* ── ② PROJECTS ── */
   #projects { padding: 120px 6vw; }
   .projects-header { max-width: 560px; margin-bottom: 4rem; }
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5px;
-  }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5px; }
   .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color .3s;
-    will-change: transform;
-    text-align: left;
+    background: var(--card); border: 1px solid var(--border); padding: 2rem;
+    position: relative; overflow: hidden; cursor: pointer; transition: border-color .3s;
+    will-change: transform; text-align: left;
   }
   .project-card::before {
     content: ''; position: absolute; inset: 0;
@@ -355,20 +301,17 @@
   .project-img {
     width: 100%; aspect-ratio: 16/9;
     background: linear-gradient(135deg, #0d0d20, #141428);
-    border-radius: 2px;
-    margin-bottom: 1.4rem;
+    border-radius: 2px; margin-bottom: 1.4rem;
     position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
   .project-img-placeholder {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem;
-    position: relative;
+    font-size: 2.5rem; position: relative;
   }
   .project-img-placeholder::after {
-    content: '';
-    position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: linear-gradient(135deg, transparent 40%, rgba(79,110,255,0.05));
   }
   .project-num {
@@ -377,20 +320,15 @@
     color: var(--blue); letter-spacing: .1em;
     background: rgba(79,110,255,0.1); padding: .25rem .6rem; border-radius: 2px;
   }
-  .project-title {
-    font-family: var(--ff-head); font-size: 1.2rem; font-weight: 700;
-    margin-bottom: .5rem; letter-spacing: -.01em;
-  }
+  .project-title { font-family: var(--ff-head); font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem; letter-spacing: -.01em; }
   .project-desc { font-size: .875rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.65; }
   .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.4rem; }
   .project-tag {
     font-size: .68rem; font-weight: 500; letter-spacing: .08em;
     padding: .22rem .65rem; border-radius: 2px; text-transform: uppercase;
-    border: 1px solid var(--border); color: var(--muted);
-    transition: .25s;
+    border: 1px solid var(--border); color: var(--muted); transition: .25s;
   }
   .project-card:hover .project-tag { border-color: rgba(79,110,255,0.25); color: var(--blue); }
-  
   .project-link-btn {
     display: inline-flex; align-items: center; gap: .4rem;
     font-size: .78rem; font-weight: 600; letter-spacing: .08em;
@@ -401,24 +339,13 @@
   .project-link-btn svg { width: 13px; height: 13px; transition: transform .25s; }
   .project-link-btn:hover svg { transform: translateX(3px); }
 
-  /* ── PROJECT DETAILS MODAL ── */
-  #project-modal {
-    display: none; position: fixed; inset: 0; z-index: 10000;
-    align-items: center; justify-content: center; padding: 2rem;
-  }
+  /* ── PROJECT MODAL ── */
+  #project-modal { display: none; position: fixed; inset: 0; z-index: 10000; align-items: center; justify-content: center; padding: 2rem; }
   #project-modal.open { display: flex; }
-  #project-modal-bg {
-    position: absolute; inset: 0;
-    background: rgba(2,2,6,0.93);
-    backdrop-filter: blur(16px);
-    cursor: pointer;
-    animation: fadeModal .3s ease;
-  }
+  #project-modal-bg { position: absolute; inset: 0; background: rgba(2,2,6,0.93); backdrop-filter: blur(16px); cursor: pointer; animation: fadeModal .3s ease; }
   #project-modal-inner {
-    position: relative; z-index: 1;
-    width: 100%; max-width: 650px; background: var(--card);
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 3rem; text-align: left;
+    position: relative; z-index: 1; width: 100%; max-width: 650px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 4px; padding: 3rem; text-align: left;
     box-shadow: 0 0 100px rgba(79,110,255,0.15);
     animation: scaleModal .38s cubic-bezier(.16,1,.3,1);
     max-height: 90vh; overflow-y: auto;
@@ -432,56 +359,63 @@
   #video { padding: 120px 6vw; background: var(--dark); }
   .video-header { max-width: 600px; margin-bottom: 4rem; }
   .video-main {
-    position: relative;
-    width: 100%; max-width: 900px; margin: 0 auto 3rem;
-    border-radius: 4px; overflow: hidden;
-    border: 1px solid var(--border);
+    position: relative; width: 100%; max-width: 900px; margin: 0 auto 3rem;
+    border-radius: 4px; overflow: hidden; border: 1px solid var(--border);
     box-shadow: 0 0 80px rgba(79,110,255,0.1);
   }
-  .vimeo-wrap {
-    position: relative; width: 100%; padding-top: 56.25%;
-    background: #05050c;
-  }
-  .vimeo-wrap iframe {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    border: none;
-  }
+  .vimeo-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #05050c; }
+  .vimeo-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
   .video-feat-caption {
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    background: rgba(10,10,18,0.9);
+    gap: 1rem; padding: 1.25rem 1.5rem; background: rgba(10,10,18,0.9);
     border-top: 1px solid var(--border);
   }
   .video-feat-meta { display: flex; gap: .5rem; }
   .video-feat-tag {
     font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-    padding: .22rem .65rem; border: 1px solid rgba(79,110,255,0.25);
-    border-radius: 2px; color: var(--blue);
+    padding: .22rem .65rem; border: 1px solid rgba(79,110,255,0.25); border-radius: 2px; color: var(--blue);
   }
   .video-feat-title { font-family: var(--ff-head); font-size: 1.05rem; font-weight: 700; }
   .video-feat-sub { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
-
   .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-  .video-card { background: var(--card); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; cursor: pointer; transition: border-color .3s, transform .3s; }
+  .video-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 3px;
+    overflow: hidden; cursor: pointer; transition: border-color .3s, transform .3s;
+  }
   .video-card:hover { border-color: rgba(79,110,255,0.35); transform: translateY(-4px); }
   .video-card-thumb { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
   .video-card-thumb-bg { position: absolute; inset: 0; }
-  .video-card-thumb .play-sm { width: 40px; height: 40px; background: rgba(79,110,255,0.2); border: 1px solid var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; transition: .25s; }
+  .video-card-thumb-bg img { width: 100%; height: 100%; object-fit: cover; }
+  .video-card-thumb .play-sm {
+    width: 40px; height: 40px; background: rgba(79,110,255,0.2);
+    border: 1px solid var(--blue); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1; transition: .25s;
+  }
   .video-card:hover .play-sm { background: var(--blue); }
   .play-sm svg { fill: #fff; width: 12px; margin-left: 2px; }
   .video-card-info { padding: 1rem; }
   .video-card-info h4 { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; margin-bottom: .3rem; }
   .video-card-info p { font-size: .78rem; color: var(--muted); }
+  .vc-coming {
+    position: absolute; bottom: .5rem; left: 50%; transform: translateX(-50%);
+    font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); background: rgba(10,10,18,0.8); padding: .2rem .6rem; border-radius: 2px;
+    z-index: 2;
+  }
 
-  /* ── LIGHTBOX MODALS SHARED ── */
+  /* ── LIGHTBOX MODALS ── */
   @keyframes fadeModal { from { opacity:0; } to { opacity:1; } }
   @keyframes scaleModal { from { opacity:0; transform:scale(.93) translateY(24px); } to { opacity:1; transform:scale(1) translateY(0); } }
-  .modal-close-btn { position: absolute; top: -52px; right: 0; width: 38px; height: 38px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 50%; cursor: pointer; color: var(--text); display: flex; align-items: center; justify-content: center; transition: background .25s, border-color .25s; z-index: 10; }
+  .modal-close-btn {
+    position: absolute; top: -52px; right: 0; width: 38px; height: 38px;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+    border-radius: 50%; cursor: pointer; color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .25s, border-color .25s; z-index: 10;
+  }
   .modal-close-btn:hover { background: rgba(79,110,255,0.2); border-color: var(--blue); }
   .modal-close-btn svg { width: 16px; height: 16px; }
-
   #vimeo-modal { display: none; position: fixed; inset: 0; z-index: 10000; align-items: center; justify-content: center; }
   #vimeo-modal.open { display: flex; }
   #vimeo-modal-bg { position: absolute; inset: 0; background: rgba(2,2,6,0.93); backdrop-filter: blur(16px); cursor: pointer; animation: fadeModal .3s ease; }
@@ -518,7 +452,7 @@
   .timeline-desc { font-size: .875rem; color: var(--muted); line-height: 1.7; }
   .timeline-tag { display: inline-block; margin-top: .6rem; font-size: .65rem; font-weight: 600; letter-spacing: .1em; padding: .2rem .6rem; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); text-transform: uppercase; }
 
-  /* ── CYBERSECURITY SECTION ── */
+  /* ── ⑤ CYBERSECURITY ── */
   #cyber { padding: 120px 6vw; background: var(--dark); }
   .cyber-header { max-width: 640px; margin-bottom: 5rem; }
   .cyber-intro { font-size: 1rem; color: var(--muted); line-height: 1.8; margin-top: 1rem; }
@@ -540,8 +474,28 @@
   .cyber-tool { display: flex; align-items: center; gap: .5rem; background: var(--card); border: 1px solid var(--border); padding: .6rem 1rem; border-radius: 3px; font-size: .8rem; font-family: var(--ff-head); font-weight: 600; transition: border-color .25s, color .25s; }
   .cyber-tool:hover { border-color: rgba(245,158,11,0.4); color: #f59e0b; }
   .cyber-tool span { font-size: 1rem; }
-  
-  /* ── ⑤ SKILLS ── */
+  .cyber-certs { margin-top: 3.5rem; }
+  .cyber-certs-title { font-family: var(--ff-head); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: .75rem; }
+  .cyber-certs-title::before { content: ''; display: block; width: 28px; height: 1px; background: #f59e0b; }
+  .cert-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .cert-item { background: var(--card); border: 1px solid var(--border); padding: 1.1rem 1.3rem; display: flex; align-items: center; gap: .9rem; border-radius: 3px; transition: border-color .25s; }
+  .cert-item:hover { border-color: rgba(34,197,94,0.3); }
+  .cert-badge { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+  .cert-name { font-family: var(--ff-head); font-size: .85rem; font-weight: 700; }
+  .cert-org { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+  .cyber-roadmap { margin-top: 3.5rem; background: var(--card); border: 1px solid var(--border); padding: 2rem 2.5rem; border-radius: 3px; position: relative; overflow: hidden; }
+  .cyber-roadmap::before { content: 'ROADMAP 2025–2026'; position: absolute; top: 1.5rem; right: 1.5rem; font-size: .6rem; font-weight: 700; letter-spacing: .18em; color: var(--blue); opacity: .6; }
+  .roadmap-title { font-family: var(--ff-head); font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; }
+  .roadmap-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .roadmap-step { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .roadmap-line { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+  .roadmap-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--border); background: var(--black); margin-top: .25rem; }
+  .roadmap-dot.active { border-color: #f59e0b; box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+  .roadmap-dot.done { border-color: #22c55e; background: rgba(34,197,94,0.15); box-shadow: 0 0 10px rgba(34,197,94,0.3); }
+  .roadmap-step-text { font-size: .88rem; color: var(--muted); padding-bottom: .8rem; line-height: 1.6; }
+  .roadmap-step-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: .2rem; }
+
+  /* ── ⑥ SKILLS ── */
   #skills { padding: 120px 6vw; background: var(--dark); }
   .skills-header { max-width: 520px; margin-bottom: 5rem; }
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5px; }
@@ -554,9 +508,9 @@
   .skill-name { font-family: var(--ff-head); font-size: .95rem; font-weight: 700; margin-bottom: .3rem; }
   .skill-level { font-size: .68rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; }
   .skill-bar-wrap { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .skill-bar { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue), var(--purple)); box-shadow: 0 0 8px var(--glow-b); width: 0; }
+  .skill-bar { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blue), var(--purple)); box-shadow: 0 0 8px var(--glow-b); width: 0; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
 
-  /* ── ⑥ CONTACT ── */
+  /* ── ⑦ CONTACT ── */
   #contact { padding: 120px 6vw 80px; position: relative; }
   .contact-glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(79,110,255,0.1) 0%, transparent 70%); pointer-events: none; }
   .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
@@ -569,6 +523,10 @@
   .form-group input:focus, .form-group textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(79,110,255,0.1); }
   .form-group textarea { min-height: 140px; }
   .form-submit { margin-top: 1.5rem; width: 100%; justify-content: center; font-size: .9rem; padding: 1.1rem; }
+  .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .social-link { display: flex; align-items: center; gap: .5rem; font-size: .78rem; font-weight: 500; letter-spacing: .06em; color: var(--muted); text-decoration: none; padding: .5rem 1rem; border: 1px solid var(--border); border-radius: 2px; transition: .25s; }
+  .social-link:hover { color: var(--blue); border-color: var(--blue); box-shadow: 0 0 16px var(--glow-b); }
+  .social-link svg { width: 15px; height: 15px; }
   footer { text-align: center; padding: 2rem 6vw; font-size: .75rem; color: var(--muted); border-top: 1px solid var(--border); letter-spacing: .06em; }
   footer span { color: var(--blue); }
 
@@ -581,6 +539,7 @@
     #cursor, #cursor-ring { display: none; }
     body { cursor: auto; }
     h1.hero-name { font-size: clamp(2.8rem, 14vw, 5rem); }
+    .cert-list { grid-template-columns: 1fr; }
     .cyber-layout { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
@@ -589,6 +548,7 @@
   @media (max-width: 480px) {
     #projects, #video, #about, #skills, #contact, #cyber { padding: 80px 5vw; }
     .projects-grid, .video-grid { grid-template-columns: 1fr; }
+    .cyber-layout { grid-template-columns: 1fr; }
     #project-modal-inner { padding: 2rem 1.5rem; }
     #pm-title { font-size: 1.5rem; }
   }
@@ -603,6 +563,7 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
+<!-- ── ENVELOPE OVERLAY ── -->
 <div id="envelope-screen">
   <div class="env-wrapper" id="envelope-btn">
     <div class="env-back"></div>
@@ -624,6 +585,7 @@
   </div>
 </div>
 
+<!-- ── NAV ── -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">A/</a>
   <ul class="nav-links" id="nav-links">
@@ -639,21 +601,18 @@
   </div>
 </nav>
 
+<!-- ── ① HERO ── -->
 <section id="hero">
   <div class="mesh-bg"></div>
   <canvas id="hero-canvas"></canvas>
   <div class="hero-inner" id="hero-content">
     <div class="hero-badge">Available for projects</div>
     <h1 class="hero-name gradient-text">Amid</h1>
-    <div class="hero-dots">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="hero-dots"><span></span><span></span><span></span></div>
     <p class="hero-sub">Event Planner &nbsp;·&nbsp; Web Developer &nbsp;·&nbsp; Video Creator</p>
     <a href="#projects" class="btn btn-primary">
       <span>Explore My Work</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:relative;z-index:1">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
-      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:relative;z-index:1"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
   </div>
   <div class="hero-scroll">
@@ -662,6 +621,7 @@
   </div>
 </section>
 
+<!-- ── ② PROJECTS ── -->
 <section id="projects">
   <div class="projects-header fade-up">
     <div class="section-label">Selected Work</div>
@@ -669,6 +629,7 @@
     <p style="color:var(--muted);font-size:.95rem;line-height:1.75;margin-top:.8rem">A curated selection of web development, production, and digital experiences built with precision and purpose.</p>
   </div>
   <div class="projects-grid" id="projects-grid">
+
     <div class="project-card card-3d" data-title="SahraFlix VIP & Premium" data-tags="WordPress, Branding, Custom CSS/JS, Localization" data-desc="Developed the complete brand identity and web presence for a high-end luxury event and wedding production brand. The project features a fully localized WordPress platform with distinct Arabic and Hebrew versions, utilizing culturally adapted imagery and cinematic visual themes. Custom CSS and JavaScript transitions were implemented to ensure a premium, immersive user experience that matches the brand's high-end services.">
       <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#160a20,#2d1440)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #8b5cf6)">✨</span></div></div>
       <div class="project-num">01</div>
@@ -677,6 +638,7 @@
       <div class="project-tags"><span class="project-tag">WordPress</span><span class="project-tag">Localization</span><span class="project-tag">Branding</span></div>
       <button class="project-link-btn">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     </div>
+
     <div class="project-card card-3d" data-title="Elderly Safety Documentary" data-tags="Video Production, Storytelling, Arabic, Sound Design" data-desc="Produced a professional, documentary-style video project in Arabic. The core objective was adapting critical safety guidelines for elderly populations. This required meticulous attention to visual accessibility, specific cinematic color grading, emotive sound effects, and tailored scriptwriting to ensure high emotional resonance and clarity within Arabic society.">
       <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#1a0a0a,#2d1010)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #ef4444)">🎬</span></div></div>
       <div class="project-num">02</div>
@@ -685,6 +647,7 @@
       <div class="project-tags"><span class="project-tag">Video Production</span><span class="project-tag">Direction</span><span class="project-tag">Editing</span></div>
       <button class="project-link-btn">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     </div>
+
     <div class="project-card card-3d" data-title="E-Commerce & Brand Flipping Strategy" data-tags="WooCommerce, Business Strategy, Marketing" data-desc="Built and scaled digital storefronts using WooCommerce with a focus on a 'business flipping' model. The strategy involved establishing brands, optimizing their product funnels, and integrating modern advertising models (including CPM and Twitch ads). The ultimate goal achieved was significantly increasing overall market value for future acquisition.">
       <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a0a20,#1a1040)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #4f6eff)">🌐</span></div></div>
       <div class="project-num">03</div>
@@ -693,9 +656,38 @@
       <div class="project-tags"><span class="project-tag">WooCommerce</span><span class="project-tag">Marketing</span><span class="project-tag">Strategy</span></div>
       <button class="project-link-btn">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
     </div>
+
+    <div class="project-card card-3d" data-title="Concert Operations & Licensing" data-tags="Event Management, Logistics, Compliance" data-desc="Managed the end-to-end operational logistics and legal compliance for large-scale public concerts in Israel. This highly complex role involved coordinating with safety engineers, managing business licensing laws, and overseeing venue supervision. Responsibilities included strict adherence to food safety protocols and crowd control measures in complex regulatory environments.">
+      <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a1a10,#0d2810)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #22c55e)">🎫</span></div></div>
+      <div class="project-num">04</div>
+      <div class="project-title">Concert Operations</div>
+      <div class="project-desc">Logistical management and strict legal/safety compliance for large public events.</div>
+      <div class="project-tags"><span class="project-tag">Event Production</span><span class="project-tag">Licensing</span><span class="project-tag">Logistics</span></div>
+      <button class="project-link-btn">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+
+    <div class="project-card card-3d" data-title="Digital Agency Landing Page" data-tags="HTML, CSS, JavaScript, Animations" data-desc="Developed a high-conversion landing page tailored for a digital marketing agency. Focused entirely on clean code architecture and smooth interactive animations to guide the user journey toward the contact integration, ensuring maximum engagement.">
+      <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a1520,#001830)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #22d3ee)">⚡</span></div></div>
+      <div class="project-num">05</div>
+      <div class="project-title">Agency Landing Page</div>
+      <div class="project-desc">High-conversion landing page with custom animated sections and form integration.</div>
+      <div class="project-tags"><span class="project-tag">HTML</span><span class="project-tag">CSS</span><span class="project-tag">JavaScript</span></div>
+      <button class="project-link-btn">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+
+    <div class="project-card card-3d" data-title="Cybersecurity Learning Path & Auditing" data-tags="Security+, Wireshark, Coursera, Risk Management" data-desc="An ongoing professional development roadmap consisting of 7 distinct certifications. I actively conduct hands-on tool labs using Wireshark and Nmap, and run real-world security scenarios including OWASP Top 10 web audits to harden the digital platforms I build for clients.">
+      <div class="project-img"><div class="project-img-placeholder" style="background:linear-gradient(135deg,#0a0f1a,#101828)"><span style="font-size:3rem;filter:drop-shadow(0 0 20px #f59e0b)">🔒</span></div></div>
+      <div class="project-num">06</div>
+      <div class="project-title">Cybersecurity Path</div>
+      <div class="project-desc">7 professional certifications and hands-on tool labs with Wireshark & Nmap.</div>
+      <div class="project-tags"><span class="project-tag">Security+</span><span class="project-tag">Wireshark</span><span class="project-tag">Auditing</span></div>
+      <button class="project-link-btn">View Details <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    </div>
+
   </div>
 </section>
 
+<!-- ── PROJECT MODAL ── -->
 <div id="project-modal" role="dialog" aria-modal="true" aria-label="Project Details">
   <div id="project-modal-bg"></div>
   <div id="project-modal-inner">
@@ -708,68 +700,252 @@
   </div>
 </div>
 
+<!-- ── ③ VIDEO ── -->
 <section id="video">
   <div class="video-header fade-up">
     <div class="section-label">Video & Events</div>
     <h2 class="section-title">Stories told through <span class="gradient-text">motion</span></h2>
     <p style="color:var(--muted);font-size:.95rem;line-height:1.75;margin-top:.8rem">Event coverage, branded video content, and creative editing — crafted to captivate and convert.</p>
   </div>
+
   <div class="video-main fade-up">
-    <div class="vimeo-wrap"><iframe src="https://player.vimeo.com/video/1190754742?badge=0&autopause=0&player_id=0&app_id=58479&color=4f6eff&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Corporate Event 2024" loading="lazy"></iframe></div>
+    <div class="vimeo-wrap">
+      <iframe src="https://player.vimeo.com/video/1190754742?badge=0&autopause=0&player_id=0&app_id=58479&color=4f6eff&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Corporate Event 2024" loading="lazy"></iframe>
+    </div>
     <div class="video-feat-caption">
-      <div class="video-feat-meta"><span class="video-feat-tag">Featured</span><span class="video-feat-tag" style="border-color:rgba(34,211,238,0.25);color:var(--cyan)">Corporate Event</span></div>
-      <div><h3 class="video-feat-title">Corporate Event 2024</h3><p class="video-feat-sub">Full event coverage · 4K · Color graded</p></div>
+      <div class="video-feat-meta">
+        <span class="video-feat-tag">Featured</span>
+        <span class="video-feat-tag" style="border-color:rgba(34,211,238,0.25);color:var(--cyan)">Corporate Event</span>
+      </div>
+      <div>
+        <h3 class="video-feat-title">Corporate Event 2024</h3>
+        <p class="video-feat-sub">Full event coverage · 4K · Color graded</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-grid">
+    <div class="video-card fade-up" data-vimeo="1190692096" data-title="Product Launch Reel" data-sub="Motion graphics · After Effects" role="button" tabindex="0">
+      <div class="video-card-thumb">
+        <div class="video-card-thumb-bg" style="background:linear-gradient(135deg,#08150a,#102816)">
+          <img src="https://vumbnail.com/1190692096.jpg" alt="Product Launch Reel thumbnail" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="play-sm"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      </div>
+      <div class="video-card-info">
+        <h4>Product Launch Reel</h4>
+        <p>Motion graphics · After Effects</p>
+      </div>
+    </div>
+
+    <div class="video-card fade-up" style="cursor:default;">
+      <div class="video-card-thumb">
+        <div class="video-card-thumb-bg" style="background:linear-gradient(135deg,#150808,#281012)"></div>
+        <div class="play-sm" style="opacity:.35;"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        <div class="vc-coming">Coming soon</div>
+      </div>
+      <div class="video-card-info">
+        <h4>Wedding Highlights</h4>
+        <p>Cinematic · Music sync · LUT grading</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ── VIMEO LIGHTBOX ── -->
+<div id="vimeo-modal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div id="vimeo-modal-bg"></div>
+  <div id="vimeo-modal-inner">
+    <button class="modal-close-btn" id="vimeo-modal-close" aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div id="vimeo-modal-title-wrap">
+      <p id="vimeo-modal-title"></p>
+      <p id="vimeo-modal-sub"></p>
+    </div>
+    <div id="vimeo-iframe-wrap">
+      <iframe id="vimeo-modal-iframe" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ── ④ ABOUT ── -->
 <section id="about">
   <div class="about-grid">
     <div class="about-text">
       <div class="section-label fade-up">About Me</div>
       <h2 class="section-title fade-up">Where strategy <span class="gradient-text">meets</span> execution</h2>
-      <p class="fade-up" style="margin-top:1.5rem">I'm <strong>Amid Alaiyan</strong> — an event planner, production manager, and digital strategist with over <strong>8 years of hands-on experience</strong>.</p>
+      <p class="fade-up" style="margin-top:1.5rem">I'm <strong>Amid Alaiyan</strong> — an event planner, production manager, and digital strategist with over <strong>8 years of hands-on experience</strong> delivering high-stakes projects across international markets including Toronto and Jerusalem.</p>
+      <p class="fade-up">My foundation is in <strong>live events and commercial production</strong> — orchestrating everything from intimate VIP gatherings to large-scale corporate summits. I manage vendors, coordinate cross-functional teams, negotiate contracts, and ensure flawless on-site execution under pressure. Every event I produce is treated as a cinematic experience: intentional, polished, and memorable.</p>
+      <p class="fade-up">Beyond the stage, I bring <strong>full digital capability</strong> — building the websites, managing the brand assets, and creating the video content that makes every event live beyond the day itself. As an Amazon seller and e-commerce operator, I also bring sharp commercial instincts: sourcing, logistics, financial tracking, and market analysis are part of my everyday toolkit.</p>
+      <p class="fade-up">Fluent in <strong>Arabic, English, and Hebrew</strong> with working Russian — I navigate multilingual environments with ease, making me a natural fit for international programs and cross-cultural stakeholder management.</p>
       <div class="about-highlights fade-up">
         <div class="highlight-item"><span class="highlight-icon">🎯</span><div><div class="highlight-title">Event Planning & Production</div><div class="highlight-sub">Corporate summits · VIP visits · Brand activations</div></div></div>
+        <div class="highlight-item"><span class="highlight-icon">🎬</span><div><div class="highlight-title">Commercial Production</div><div class="highlight-sub">4K coverage · Color grading · Adobe Premiere</div></div></div>
         <div class="highlight-item"><span class="highlight-icon">🌐</span><div><div class="highlight-title">Digital & Web Strategy</div><div class="highlight-sub">WordPress · WooCommerce · Brand Identity</div></div></div>
+        <div class="highlight-item"><span class="highlight-icon">🗣️</span><div><div class="highlight-title">Multilingual Operations</div><div class="highlight-sub">Arabic · English · Hebrew · Russian (Basic)</div></div></div>
+      </div>
+      <div class="about-stats fade-up">
+        <div class="stat-box"><div class="stat-num">8+</div><div class="stat-label">Years Experience</div></div>
+        <div class="stat-box"><div class="stat-num">50+</div><div class="stat-label">Events Produced</div></div>
+        <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Cyber Certifications</div></div>
+        <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Languages Fluent</div></div>
       </div>
     </div>
+
     <div class="timeline" id="timeline">
-      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2020 – Present</div><div class="timeline-title">Program & Logistics Coordinator</div><div class="timeline-desc">Self-employed production manager overseeing complex international projects and live events.</div><span class="timeline-tag">Production · Operations</span></div>
-      <div class="timeline-item"><div class="timeline-dot" style="border-color:var(--purple);box-shadow:0 0 12px var(--glow-p)"></div><div class="timeline-year" style="color:var(--purple)">2023 – 2025</div><div class="timeline-title">Operational Lead · Toronto, Canada</div><div class="timeline-desc">Led technical production for mission-driven campaigns in Toronto.</div><span class="timeline-tag">Digital · Leadership</span></div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2020 – Present</div>
+        <div class="timeline-title">Program & Logistics Coordinator</div>
+        <div class="timeline-desc">Self-employed production manager overseeing complex international projects and live events. Negotiating vendor contracts, managing field teams in real time, and maintaining meticulous documentation.</div>
+        <span class="timeline-tag">Production · Operations</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--purple);box-shadow:0 0 12px var(--glow-p)"></div>
+        <div class="timeline-year" style="color:var(--purple)">2023 – 2025</div>
+        <div class="timeline-title">Operational Lead · Toronto, Canada</div>
+        <div class="timeline-desc">Led technical production for mission-driven campaigns in Toronto. Managed international digital asset libraries, built visual templates for onboarding and reporting.</div>
+        <span class="timeline-tag">Digital · Leadership</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:var(--cyan);box-shadow:0 0 12px rgba(34,211,238,0.3)"></div>
+        <div class="timeline-year" style="color:var(--cyan)">Hart Entertainment · Toronto</div>
+        <div class="timeline-title">Event & Logistics Specialist</div>
+        <div class="timeline-desc">End-to-end logistics for business summits, VIP visits, and large-scale gatherings. Managed on-site operations and vendor relationships.</div>
+        <span class="timeline-tag">Events · VIP</span>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color:#f59e0b;box-shadow:0 0 12px rgba(245,158,11,0.3)"></div>
+        <div class="timeline-year" style="color:#f59e0b">Education</div>
+        <div class="timeline-title">Film, Marketing & Cybersecurity</div>
+        <div class="timeline-desc">Diploma in Film & TV Production from Toronto Film School. 7 professional cybersecurity certifications including Security+.</div>
+        <span class="timeline-tag">Education · Security</span>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ── ⑤ SKILLS ── -->
 <section id="skills">
   <div class="skills-header fade-up">
     <div class="section-label">Expertise</div>
     <h2 class="section-title">Tools of my <span class="gradient-text">craft</span></h2>
+    <p style="color:var(--muted);font-size:.95rem;line-height:1.75;margin-top:.8rem">Technologies, disciplines, and soft skills I deploy daily to deliver exceptional results.</p>
   </div>
   <div class="skills-grid">
     <div class="skill-card" data-level="95"><span class="skill-icon">🎯</span><div class="skill-name">Event Planning</div><div class="skill-level">Expert</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
     <div class="skill-card" data-level="92"><span class="skill-icon">🏗️</span><div class="skill-name">Production Mgmt</div><div class="skill-level">Expert</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
     <div class="skill-card" data-level="90"><span class="skill-icon">🎬</span><div class="skill-name">Video Editing</div><div class="skill-level">Advanced</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
     <div class="skill-card" data-level="90"><span class="skill-icon">🌐</span><div class="skill-name">WordPress</div><div class="skill-level">Advanced</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
+    <div class="skill-card" data-level="85"><span class="skill-icon">🔷</span><div class="skill-name">HTML / CSS</div><div class="skill-level">Advanced</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
+    <div class="skill-card" data-level="75"><span class="skill-icon">⚙️</span><div class="skill-name">JavaScript</div><div class="skill-level">Intermediate</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
+    <div class="skill-card" data-level="80"><span class="skill-icon">📦</span><div class="skill-name">E-Commerce Ops</div><div class="skill-level">Advanced</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
+    <div class="skill-card" data-level="78"><span class="skill-icon">🗣️</span><div class="skill-name">Multilingual Comms</div><div class="skill-level">Expert</div><div class="skill-bar-wrap"><div class="skill-bar"></div></div></div>
   </div>
 </section>
 
+<!-- ── ⑥ CYBERSECURITY ── -->
+<section id="cyber">
+  <div class="cyber-header fade-up">
+    <div class="section-label" style="--blue:#f59e0b;color:#f59e0b">Cybersecurity Path</div>
+    <h2 class="section-title">Building a <span style="background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent">secure</span> future</h2>
+    <p class="cyber-intro">With <strong>7 professional cybersecurity certifications</strong> already earned and an active lab practice, I'm developing deep expertise in network security, threat analysis, and ethical hacking — bringing this knowledge directly into every platform and product I build.</p>
+  </div>
+
+  <div class="cyber-layout">
+    <div class="cyber-card fade-up">
+      <span class="cyber-card-icon">🦈</span>
+      <div class="cyber-card-title">Network Traffic Analysis</div>
+      <div class="cyber-card-desc">Hands-on lab series capturing and analysing real network packets using Wireshark.</div>
+      <span class="cyber-card-status done">Completed</span>
+    </div>
+    <div class="cyber-card fade-up">
+      <span class="cyber-card-icon">🛡️</span>
+      <div class="cyber-card-title">WordPress Hardening Project</div>
+      <div class="cyber-card-desc">Applied 7 certified security domains to a live WordPress installation: rate limiting, RBAC, GDPR forms.</div>
+      <span class="cyber-card-status done">Live in production</span>
+    </div>
+  </div>
+
+  <div class="cyber-tools fade-up">
+    <div class="cyber-tools-title">Tools I work with</div>
+    <div class="cyber-tools-grid">
+      <div class="cyber-tool"><span>🦈</span> Wireshark</div>
+      <div class="cyber-tool"><span>🗺️</span> Nmap</div>
+      <div class="cyber-tool"><span>🐉</span> Kali Linux</div>
+      <div class="cyber-tool"><span>🌐</span> OWASP ZAP</div>
+    </div>
+  </div>
+
+  <div class="cyber-certs fade-up">
+    <div class="cyber-certs-title">Certifications Earned</div>
+    <div class="cert-list">
+      <div class="cert-item"><div class="cert-badge">🏅</div><div><div class="cert-name">Google Cybersecurity</div><div class="cert-org">Google · Coursera</div></div></div>
+      <div class="cert-item"><div class="cert-badge">🏅</div><div><div class="cert-name">Network Security</div><div class="cert-org">Cisco · Networking Academy</div></div></div>
+      <div class="cert-item"><div class="cert-badge">🏅</div><div><div class="cert-name">Security Fundamentals</div><div class="cert-org">Microsoft · LinkedIn Learning</div></div></div>
+      <div class="cert-item"><div class="cert-badge">🎯</div><div><div class="cert-name">Security+ (In Progress)</div><div class="cert-org">CompTIA · 2025</div></div></div>
+    </div>
+  </div>
+
+  <div class="cyber-roadmap fade-up">
+    <div class="roadmap-title">Learning Roadmap</div>
+    <div class="roadmap-steps">
+      <div class="roadmap-step">
+        <div class="roadmap-line"><div class="roadmap-dot done"></div></div>
+        <div class="roadmap-step-text"><strong>Google Cybersecurity Certificate</strong>Foundations of threat analysis, SIEM tools, and incident response workflows.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-line"><div class="roadmap-dot done"></div></div>
+        <div class="roadmap-step-text"><strong>Hands-on Lab Practice</strong>Active Wireshark packet capture, Nmap scanning, and OWASP Top 10 audits.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-line"><div class="roadmap-dot active"></div></div>
+        <div class="roadmap-step-text"><strong>CompTIA Security+ (Active)</strong>Studying for certification — expected completion Q3 2025.</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-line"><div class="roadmap-dot"></div></div>
+        <div class="roadmap-step-text"><strong>CEH / eJPT (Planned)</strong>Ethical hacking certification path for 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ⑦ CONTACT ── -->
 <section id="contact">
   <div class="contact-glow"></div>
   <div class="contact-inner">
     <div class="section-label" style="justify-content:center">Get In Touch</div>
     <h2 class="section-title fade-up">Let's build something <span class="gradient-text">remarkable</span></h2>
+    <p class="contact-desc fade-up">Whether you need a website, a showreel, or something entirely new — I'd love to hear about your project. Let's make it happen.</p>
+
     <form class="contact-form fade-up" action="https://formspree.io/f/xlgvjywo" method="POST" onsubmit="handleSubmit(event)">
       <div class="form-row">
         <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" name="name" placeholder="Your name..." required></div>
         <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="hello@example.com" required></div>
       </div>
+      <div class="form-group" style="margin-bottom:1rem"><label for="subject">Subject</label><input type="text" id="subject" name="subject" placeholder="Project inquiry..."></div>
       <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea></div>
       <button type="submit" class="btn btn-primary form-submit">
         <span>Send Message</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position:relative;z-index:1"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
       </button>
     </form>
+
+    <div class="social-links">
+      <a href="mailto:ameedal543@gmail.com" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+      <a href="https://www.linkedin.com" target="_blank" rel="noopener" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://vimeo.com" target="_blank" rel="noopener" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 7.42c-.09 2.03-1.51 4.81-4.24 8.34C14.94 19.4 12.5 21.17 10.5 21.17c-1.2 0-2.22-1.11-3.05-3.34L5.9 12.7C5.29 10.47 4.64 9.36 3.95 9.36c-.16 0-.71.33-1.66.99L1 9.07a228.6 228.6 0 002.82-2.51c1.27-1.1 2.23-1.68 2.86-1.73 1.5-.14 2.43.88 2.78 3.07.38 2.35.64 3.81.79 4.39.44 2 .92 3 1.44 3 .41 0 1.02-.64 1.84-1.93.82-1.3 1.26-2.28 1.3-2.97.12-1.12-.32-1.68-1.3-1.68-.46 0-.94.11-1.43.32.95-3.11 2.77-4.62 5.45-4.54 1.99.06 2.92 1.35 2.79 3.88z"/></svg>
+        Vimeo
+      </a>
+    </div>
   </div>
 </section>
 
@@ -777,6 +953,7 @@
   <p>© 2026 <span>Amid</span> · Designed & Developed with passion · All rights reserved</p>
 </footer>
 
+<!-- ── SCRIPTS ── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -786,28 +963,21 @@ const envScreen = document.getElementById('envelope-screen');
 const envWrapper = document.getElementById('envelope-btn');
 
 envWrapper.addEventListener('click', () => {
-  // 1. Trigger the CSS animations
   envWrapper.classList.add('open');
-  
-  // 2. Fade out the whole screen right after the letter slides up
   setTimeout(() => {
     envScreen.style.opacity = '0';
     envScreen.style.visibility = 'hidden';
   }, 1200);
-
-  // 3. Remove from DOM completely, unlock scroll, and play hero animations
   setTimeout(() => {
     document.body.classList.remove('locked');
     envScreen.style.display = 'none';
-    playHeroAnimations(); // Call the GSAP hero sequence
-    animateSkillBars();   // Initialize dynamic skill bars
+    playHeroAnimations();
   }, 2000);
 });
 
-/* ── GSAP ANIMATIONS ── */
+/* ── GSAP ── */
 gsap.registerPlugin(ScrollTrigger);
 
-// Wrapped in a function so it waits for the envelope
 function playHeroAnimations() {
   gsap.from('.hero-badge', { y: 30, opacity: 0, duration: .9, ease: 'power3.out' });
   gsap.from('h1.hero-name', { y: 60, opacity: 0, duration: 1.1, delay: .2, ease: 'power3.out' });
@@ -817,29 +987,35 @@ function playHeroAnimations() {
   gsap.from('.hero-scroll', { opacity: 0, duration: 1, delay: 1.5 });
 }
 
-/* ── ANIMATE SKILL BARS ON SCROLL (FIX APPLIED) ── */
-function animateSkillBars() {
-  gsap.utils.toArray('.skill-card').forEach(card => {
-    const bar = card.querySelector('.skill-bar');
-    const level = card.getAttribute('data-level');
-    
-    gsap.to(bar, {
-      width: level + '%',
-      duration: 1.4,
-      ease: 'power4.out',
-      scrollTrigger: {
-        trigger: card,
-        start: 'top 88%',
-        toggleActions: 'play none none none'
-      }
-    });
+gsap.to('#hero-content', {
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: '80% top', scrub: true },
+  y: -80, opacity: 0, scale: .96, ease: 'none'
+});
+
+gsap.utils.toArray('.fade-up').forEach(el => {
+  gsap.fromTo(el, { y: 45, opacity: 0 }, {
+    y: 0, opacity: 1, duration: .9, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
   });
-}
+});
 
-gsap.to('#hero-content', { scrollTrigger: { trigger: '#hero', start: 'top top', end: '80% top', scrub: true }, y: -80, opacity: 0, scale: .96, ease: 'none' });
-gsap.utils.toArray('.fade-up').forEach(el => { gsap.fromTo(el, { y: 45, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' } }); });
-gsap.utils.toArray('.card-3d').forEach((card, i) => { gsap.fromTo(card, { opacity: 0, rotateY: 18, z: -60, y: 40 }, { opacity: 1, rotateY: 0, z: 0, y: 0, duration: .85, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' }, delay: (i % 3) * 0.1 }); });
+gsap.utils.toArray('.card-3d').forEach((card, i) => {
+  gsap.fromTo(card, { opacity: 0, rotateY: 18, z: -60, y: 40 }, {
+    opacity: 1, rotateY: 0, z: 0, y: 0, duration: .85, ease: 'power3.out',
+    scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' },
+    delay: (i % 3) * 0.1
+  });
+});
 
+/* ── SKILL BARS (scroll-triggered) ── */
+gsap.utils.toArray('.skill-card').forEach(card => {
+  const bar = card.querySelector('.skill-bar');
+  const level = card.getAttribute('data-level');
+  ScrollTrigger.create({
+    trigger: card, start: 'top 85%',
+    onEnter: () => { bar.style.width = level + '%'; }
+  });
+});
 
 /* ── CUSTOM CURSOR ── */
 const cursor = document.getElementById('cursor');
@@ -854,58 +1030,114 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
 })();
 
 /* ── NAV ── */
-const nav = document.getElementById('nav'), burger = document.getElementById('burger'), navLinks = document.getElementById('nav-links');
+const nav = document.getElementById('nav');
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('nav-links');
 window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
 burger.addEventListener('click', () => { navLinks.classList.toggle('open'); });
 
-/* ── PROJECT MODALS & INTERACTIONS ── */
-const projModal = document.getElementById('project-modal'), projModalBg = document.getElementById('project-modal-bg'), projModalClose = document.getElementById('project-modal-close'), pmTitle = document.getElementById('pm-title'), pmTags = document.getElementById('pm-tags'), pmDesc = document.getElementById('pm-desc');
+/* ── CARD MOUSE GLOW ── */
 document.querySelectorAll('.project-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
     card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
     card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
   });
+});
+
+/* ── PROJECT MODAL ── */
+const projModal = document.getElementById('project-modal');
+const projModalBg = document.getElementById('project-modal-bg');
+const projModalClose = document.getElementById('project-modal-close');
+const pmTitle = document.getElementById('pm-title');
+const pmTags = document.getElementById('pm-tags');
+const pmDesc = document.getElementById('pm-desc');
+
+document.querySelectorAll('.project-card').forEach(card => {
   card.addEventListener('click', () => {
     pmTitle.textContent = card.getAttribute('data-title');
     pmDesc.textContent = card.getAttribute('data-desc');
     pmTags.innerHTML = '';
     card.getAttribute('data-tags').split(',').forEach(tag => {
-      const span = document.createElement('span'); span.className = 'project-tag'; span.style.borderColor = 'rgba(79,110,255,0.3)'; span.style.color = 'var(--blue)'; span.textContent = tag.trim(); pmTags.appendChild(span);
+      const span = document.createElement('span');
+      span.className = 'project-tag';
+      span.style.borderColor = 'rgba(79,110,255,0.3)';
+      span.style.color = 'var(--blue)';
+      span.textContent = tag.trim();
+      pmTags.appendChild(span);
     });
-    projModal.classList.add('open'); document.body.style.overflow = 'hidden';
+    projModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
   });
 });
 function closeProjModal() { projModal.classList.remove('open'); document.body.style.overflow = ''; }
-projModalBg.addEventListener('click', closeProjModal); projModalClose.addEventListener('click', closeProjModal);
+projModalBg.addEventListener('click', closeProjModal);
+projModalClose.addEventListener('click', closeProjModal);
 
 /* ── HERO PARTICLE CANVAS ── */
 (function heroCanvas() {
-  const canvas = document.getElementById('hero-canvas'), ctx = canvas.getContext('2d');
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
   let W, H, particles = [];
   const N = window.innerWidth < 768 ? 55 : 120;
   function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
   resize(); window.addEventListener('resize', resize);
   function rand(a, b) { return Math.random() * (b - a) + a; }
-  for (let i = 0; i < N; i++) particles.push({ x: rand(0, 1), y: rand(0, 1), vx: rand(-.0003, .0003), vy: rand(-.0003, .0003), r: rand(0.8, 2.5), o: rand(0.2, 0.8), hue: rand(220, 280) });
-  let mx2 = 0.5, my2 = 0.5; document.addEventListener('mousemove', e => { mx2 = e.clientX / window.innerWidth; my2 = e.innerHeight / window.innerHeight; });
+  for (let i = 0; i < N; i++) {
+    particles.push({ x: rand(0,1), y: rand(0,1), vx: rand(-.0003,.0003), vy: rand(-.0003,.0003), r: rand(0.8,2.5), o: rand(0.2,0.8), hue: rand(220,280) });
+  }
+  let mx2 = 0.5, my2 = 0.5;
+  document.addEventListener('mousemove', e => { mx2 = e.clientX / window.innerWidth; my2 = e.clientY / window.innerHeight; });
   function draw() {
     ctx.clearRect(0, 0, W, H);
     for (let i = 0; i < N; i++) {
-      for (let j = i + 1; j < N; j++) {
-        const dx = (particles[i].x - particles[j].x) * W, dy = (particles[i].y - particles[j].y) * H, d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 120) { ctx.beginPath(); ctx.strokeStyle = `rgba(79,110,255,${(1 - d / 120) * 0.18})`; ctx.lineWidth = .5; ctx.moveTo(particles[i].x * W, particles[i].y * H); ctx.lineTo(particles[j].x * W, particles[j].y * H); ctx.stroke(); }
+      for (let j = i+1; j < N; j++) {
+        const dx = (particles[i].x - particles[j].x) * W, dy = (particles[i].y - particles[j].y) * H;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) {
+          ctx.beginPath(); ctx.strokeStyle = `rgba(79,110,255,${(1 - d/120) * 0.18})`; ctx.lineWidth = .5;
+          ctx.moveTo(particles[i].x*W, particles[i].y*H); ctx.lineTo(particles[j].x*W, particles[j].y*H); ctx.stroke();
+        }
       }
     }
     particles.forEach(p => {
-      p.x += p.vx + (mx2 - 0.5) * 0.00004; p.y += p.vy + (my2 - 0.5) * 0.00004;
+      p.x += p.vx + (mx2-0.5)*0.00004; p.y += p.vy + (my2-0.5)*0.00004;
       if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0; if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
-      ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2); ctx.fillStyle = `hsla(${p.hue},80%,70%,${p.o})`; ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x*W, p.y*H, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(${p.hue},80%,70%,${p.o})`; ctx.fill();
     });
     requestAnimationFrame(draw);
   }
   draw();
 })();
+
+/* ── VIMEO LIGHTBOX ── */
+const vModal = document.getElementById('vimeo-modal');
+const vModalBg = document.getElementById('vimeo-modal-bg');
+const vModalClose = document.getElementById('vimeo-modal-close');
+const vModalIframe = document.getElementById('vimeo-modal-iframe');
+const vModalTitle = document.getElementById('vimeo-modal-title');
+const vModalSub = document.getElementById('vimeo-modal-sub');
+
+function openVimeoModal(id, title, sub) {
+  vModalTitle.textContent = title || '';
+  vModalSub.textContent = sub || '';
+  vModalIframe.src = `https://player.vimeo.com/video/${id}?autoplay=1&badge=0&autopause=0&color=4f6eff&title=0&byline=0&portrait=0`;
+  vModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeVimeoModal() {
+  vModal.classList.remove('open');
+  vModalIframe.src = '';
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('.video-card[data-vimeo]').forEach(card => {
+  card.addEventListener('click', () => openVimeoModal(card.dataset.vimeo, card.dataset.title, card.dataset.sub));
+  card.addEventListener('keydown', e => { if (e.key === 'Enter') openVimeoModal(card.dataset.vimeo, card.dataset.title, card.dataset.sub); });
+});
+vModalBg.addEventListener('click', closeVimeoModal);
+vModalClose.addEventListener('click', closeVimeoModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeProjModal(); closeVimeoModal(); } });
 
 /* ── SMOOTH NAV ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -916,35 +1148,33 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── CONTACT FORM SUBMISSION (AJAX Formspree) ── */
-async function handleSubmit(event) {
-  event.preventDefault();
-  
-  const form = event.target;
-  const submitBtn = form.querySelector('.form-submit span');
-  const originalText = submitBtn.textContent;
-  
-  submitBtn.textContent = 'Sending...';
-  
-  try {
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: new FormData(form),
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
+/* ── CONTACT FORM ── */
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('.form-submit span');
+  const original = btn.textContent;
+  btn.textContent = 'Sending…';
 
-    if (response.ok) {
-      alert('Thank you! Your message has been sent successfully.');
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      btn.textContent = '✓ Message Sent!';
       form.reset();
+      setTimeout(() => { btn.textContent = original; }, 4000);
     } else {
-      alert('Oops! There was a problem submitting your form.');
+      const data = await res.json();
+      const msg = data.errors ? data.errors.map(x => x.message).join(', ') : 'Something went wrong.';
+      alert(msg);
+      btn.textContent = original;
     }
-  } catch (error) {
-    alert('Oops! There was a problem submitting your form.');
-  } finally {
-    submitBtn.textContent = originalText;
+  } catch (err) {
+    alert('Network error — please try again.');
+    btn.textContent = original;
   }
 }
 </script>
