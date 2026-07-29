@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Budget · Fast Check-in — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#002E6D;
+    --navy-deep:#00194a;
+    --navy-soft:#0b3f8f;
+    --orange:#F58220;
+    --orange-bright:#ff7a00;
+    --yellow:#FFC72C;
+    --red:#D42F2F;
+    --paper:#F4F6FA;
+    --card:#ffffff;
+    --ink:#152238;
+    --muted:#6a7690;
+    --line:#e6eaf1;
+    --ok:#1e9e6a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Rubik',system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #0b3f8f 0%, transparent 60%),
+      linear-gradient(160deg,#00194a 0%, #002E6D 55%, #001233 100%);
+    min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px 12px;
+  }
+
+  /* ------- device shell ------- */
+  .phone{
+    position:relative;
+    width:100%;
+    max-width:412px;
+    height:min(860px, calc(100dvh - 40px));
+    background:var(--paper);
+    border-radius:34px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 40px 90px -20px rgba(0,10,40,.7), 0 0 0 10px #0a1636, 0 0 0 11px #223a6e;
+  }
+  @media (max-width:479px){
+    body{padding:0}
+    .phone{max-width:none;height:100dvh;border-radius:0;box-shadow:none}
+  }
+
+  /* ------- top bar ------- */
+  .topbar{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 18px 12px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    flex:0 0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.2px;font-size:19px}
+  .brand .mark{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:7px;background:var(--orange);
+    color:var(--navy-deep);font-weight:800;font-size:15px;transform:skewX(-6deg);
+  }
+  .brand .mark span{transform:skewX(6deg)}
+  .brand b{color:#fff}
+  .brand i{color:var(--orange);font-style:normal;font-weight:600;font-size:12px;opacity:.95;align-self:flex-end;padding-bottom:2px}
+
+  .lang{
+    display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px;font-size:12px;font-weight:600
+  }
+  .lang button{
+    border:0;background:transparent;color:#cdd8ef;padding:6px 9px;border-radius:999px;cursor:pointer;font-family:inherit;font-weight:700;font-size:12px;line-height:1
+  }
+  .lang button.on{background:#fff;color:var(--navy)}
+
+  .demo-pill{
+    background:var(--yellow);color:#3a2a00;font-weight:700;font-size:11px;
+    text-align:center;padding:4px 8px;letter-spacing:.3px;
+  }
+
+  /* ------- progress ------- */
+  .steps{
+    display:flex;gap:6px;padding:12px 16px 4px;background:var(--paper);flex:0 0 auto;
+  }
+  .steps .st{flex:1;display:flex;flex-direction:column;gap:6px;align-items:center;font-size:10.5px;color:var(--muted);font-weight:600}
+  .steps .bar{height:4px;width:100%;border-radius:4px;background:var(--line)}
+  .steps .st.done .bar{background:var(--orange)}
+  .steps .st.active .bar{background:var(--navy)}
+  .steps .st.active{color:var(--navy)}
+
+  /* ------- scroll area ------- */
+  .screenwrap{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .screen{display:none;padding:18px 18px 20px;animation:rise .35s ease both}
+  .screen.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--orange);
+    background:#fff3e6;padding:5px 10px;border-radius:999px;margin-bottom:12px}
+  .eyebrow.ok{color:var(--ok);background:#e6f6ee}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+  h1{font-size:24px;line-height:1.15;font-weight:800;letter-spacing:-.2px;margin-bottom:6px}
+  .sub{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:16px}
+
+  /* ------- booking card ------- */
+  .booking{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-soft) 100%);
+    color:#fff;border-radius:18px;padding:18px;position:relative;overflow:hidden;
+    box-shadow:0 14px 30px -14px rgba(0,30,90,.6)
+  }
+  .booking::after{content:"";position:absolute;inset:auto -30px -40px auto;width:150px;height:150px;
+    background:radial-gradient(circle,rgba(245,130,32,.35),transparent 70%)}
+  .booking .conf{font-family:'Space Mono',monospace;font-size:17px;letter-spacing:1px;color:var(--yellow)}
+  .booking .rowset{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:14px;position:relative;z-index:1}
+  .booking .k{font-size:11px;color:#a9bde3;font-weight:600;margin-bottom:2px}
+  .booking .v{font-size:14.5px;font-weight:600}
+  .scanline{display:flex;align-items:center;gap:8px;font-size:12px;color:#bcd0f0;margin-bottom:10px;font-weight:600}
+  .scanline svg{filter:drop-shadow(0 0 6px rgba(255,199,44,.5))}
+
+  /* ------- rules ------- */
+  .ackhint{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:12px}
+  .ackhint .count{font-weight:800;color:var(--navy);background:#e9eefb;border-radius:999px;padding:2px 9px;font-size:12px;min-width:38px;text-align:center}
+  .ackhint .count.full{background:var(--ok);color:#fff}
+  .rule{display:flex;align-items:center;gap:12px;width:100%;text-align:start;font-family:inherit;
+    padding:13px 14px;border-radius:14px;background:#fff;border:1.5px solid var(--line);margin-bottom:10px;
+    cursor:pointer;transition:border-color .15s, background .15s;color:var(--ink)}
+  .rule:focus-visible{outline:3px solid rgba(0,46,109,.35);outline-offset:2px}
+  .rule .ic{flex:0 0 34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px}
+  .rule .tx{font-size:13.5px;line-height:1.45;flex:1}
+  .rule.i1 .ic{background:var(--navy)}
+  .rule.i2 .ic{background:var(--red)}
+  .rule.i3 .ic{background:var(--orange)}
+  .rule.i4 .ic{background:var(--navy-soft)}
+  .rule.i5 .ic{background:var(--ok)}
+  .rule.i6 .ic{background:var(--yellow);color:var(--navy-deep)}
+  .rule .chk{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;transition:.15s;background:#fff}
+  .rule .chk svg{opacity:0;transform:scale(.4);transition:.18s}
+  .rule.read{border-color:var(--ok);background:#f2fbf6}
+  .rule.read .chk{background:var(--ok);border-color:var(--ok);transform:scale(1.05)}
+  .rule.read .chk svg{opacity:1;transform:none}
+
+  /* ------- form ------- */
+  .hint{display:flex;gap:9px;align-items:flex-start;background:#fff8ec;border:1px solid #ffe4b8;
+    color:#7a4e00;border-radius:12px;padding:11px 13px;font-size:12.5px;font-weight:500;line-height:1.4;margin-bottom:14px}
+  .hint b{color:#7a4e00}
+  .field{margin-bottom:13px}
+  .field.half{display:inline-block;width:calc(50% - 5px)}
+  .field.half + .field.half{margin-inline-start:10px}
+  label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:5px}
+  label .loaded{color:var(--ok);font-weight:600;font-size:10.5px;margin-inline-start:5px}
+  input,select{
+    width:100%;font-family:inherit;font-size:15px;color:var(--ink);
+    padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;background:#fff;
+    transition:border-color .15s, box-shadow .15s
+  }
+  input:focus,select:focus{outline:0;border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,46,109,.12)}
+  .seg{display:flex;background:#eef1f7;border-radius:11px;padding:4px;margin-bottom:8px}
+  .seg button{flex:1;border:0;background:transparent;font-family:inherit;font-weight:700;font-size:13px;color:var(--muted);
+    padding:8px;border-radius:8px;cursor:pointer}
+  .seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(0,20,60,.1)}
+  .divider{height:1px;background:var(--line);margin:16px 0 14px}
+  .grouplabel{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+  /* ------- review ------- */
+  .rev{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .rev .r{display:flex;justify-content:space-between;gap:14px;padding:11px 14px;border-bottom:1px solid var(--line)}
+  .rev .r:last-child{border-bottom:0}
+  .rev .rk{font-size:12px;color:var(--muted);font-weight:600}
+  .rev .rv{font-size:13.5px;font-weight:600;text-align:end}
+
+  /* ------- done / ticket ------- */
+  .done-hero{text-align:center;padding-top:6px}
+  .check{
+    width:78px;height:78px;border-radius:50%;margin:4px auto 14px;
+    background:radial-gradient(circle at 30% 25%, #29c07f, #1e9e6a);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 30px -8px rgba(30,158,106,.6)
+  }
+  .check svg path{stroke-dasharray:34;stroke-dashoffset:34;animation:draw .5s .15s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .ticket{
+    position:relative;margin:18px 0 6px;border-radius:18px;color:#fff;
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-soft) 60%, #0a4aa0 100%);
+    padding:22px 20px 24px;box-shadow:0 20px 40px -16px rgba(0,20,80,.7);overflow:hidden
+  }
+  .ticket::before,.ticket::after{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:var(--paper);top:50%;transform:translateY(-50%)}
+  .ticket::before{inset-inline-start:-13px}
+  .ticket::after{inset-inline-end:-13px}
+  .ticket .perf{position:absolute;inset-inline:16px;top:50%;border-top:2px dashed rgba(255,255,255,.3)}
+  .ticket .cap{font-size:12px;color:#bcd0f0;font-weight:600;letter-spacing:.4px}
+  .ticket .code{font-family:'Space Mono',monospace;font-size:42px;letter-spacing:3px;color:var(--yellow);margin:6px 0 2px;font-weight:700}
+  .ticket .foot{display:flex;justify-content:space-between;margin-top:26px;font-size:11.5px;color:#bcd0f0}
+  .ticket .foot b{color:#fff;display:block;font-size:13px;margin-top:2px}
+  .done-note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+  .ghostbtn{display:block;width:100%;margin-top:12px;background:transparent;border:1.5px solid var(--line);
+    color:var(--muted);font-family:inherit;font-weight:700;font-size:13.5px;padding:11px;border-radius:12px;cursor:pointer}
+
+  /* ------- explore map ------- */
+  .explore-cta{margin-top:16px}
+  .mapwrap{position:relative;height:440px;border-radius:18px;overflow:hidden;margin-bottom:14px;
+    direction:ltr;border:1px solid var(--line);background:#e9ecdf}
+  .mapwrap .mapsvg{position:absolute;inset:0;width:100%;height:100%}
+  .mapwrap .sealbl{position:absolute;top:12px;left:9px;font-size:10px;font-weight:700;color:#2b6c86;letter-spacing:.5px;opacity:.85;z-index:1}
+  .pin{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:7px;
+    background:none;border:0;cursor:pointer;font-family:inherit;padding:0;z-index:2}
+  .pin.flip{flex-direction:row-reverse}
+  .pin .dot{flex:0 0 15px;width:15px;height:15px;border-radius:50%;background:var(--orange);
+    border:3px solid #fff;box-shadow:0 2px 6px rgba(0,20,60,.3);transition:.15s}
+  .pin .plbl{font-size:11px;font-weight:700;color:var(--ink);background:#fff;padding:3px 8px;
+    border-radius:999px;box-shadow:0 1px 5px rgba(0,20,60,.18);white-space:nowrap}
+  .pin.on .dot{background:var(--red);transform:scale(1.4)}
+  .pin.on .plbl{background:var(--navy);color:#fff}
+  .pin:focus-visible{outline:3px solid rgba(0,46,109,.4);outline-offset:3px;border-radius:999px}
+
+  .postcard{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;
+    box-shadow:0 12px 26px -16px rgba(0,20,60,.35);animation:rise .3s ease both}
+  .pc-scene{height:152px;position:relative}
+  .pc-scene svg{width:100%;height:100%;display:block}
+  .pc-tag{position:absolute;top:10px;inset-inline-end:10px;background:rgba(255,255,255,.9);
+    color:var(--navy);font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 8px;border-radius:999px}
+  .pc-body{padding:13px 15px 15px}
+  .pc-name{font-weight:800;font-size:16.5px;margin-bottom:3px}
+  .pc-blurb{color:var(--muted);font-size:13px;line-height:1.45}
+  .pc-note{font-size:10.5px;color:var(--muted);text-align:center;margin:10px 2px 0;opacity:.85}
+
+  /* ------- footer action ------- */
+  .action{flex:0 0 auto;padding:12px 16px 16px;background:var(--paper);border-top:1px solid var(--line)}
+  .cta{
+    width:100%;border:0;font-family:inherit;font-weight:800;font-size:16px;color:#fff;
+    background:linear-gradient(90deg,var(--orange) 0%, var(--orange-bright) 100%);
+    padding:15px;border-radius:14px;cursor:pointer;letter-spacing:.2px;
+    box-shadow:0 10px 22px -8px rgba(245,130,32,.7);transition:transform .1s, filter .1s
+  }
+  .cta:active{transform:translateY(1px) scale(.995)}
+  .cta:disabled{background:#c9cfdb;box-shadow:none;cursor:not-allowed;color:#fff}
+  .cta.secondary{background:var(--navy);box-shadow:0 10px 22px -10px rgba(0,46,109,.6)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .check svg path{stroke-dashoffset:0}
+  }
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="mark"><span>B</span></span>
+      <b>Budget</b>
+    </div>
+    <div class="lang">
+      <button id="btn-he" class="on" onclick="setLang('he')">עב</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-ru" onclick="setLang('ru')">RU</button>
+      <button id="btn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+  <div class="demo-pill" data-i18n="demoPill">תצוגת הדגמה · לא מחובר למערכת אמיתית</div>
+
+  <div class="steps" id="steps">
+    <div class="st" data-step="1"><div class="bar"></div><span data-i18n="step1">הזמנה</span></div>
+    <div class="st" data-step="2"><div class="bar"></div><span data-i18n="step2">כללים</span></div>
+    <div class="st" data-step="3"><div class="bar"></div><span data-i18n="step3">פרטים</span></div>
+    <div class="st" data-step="4"><div class="bar"></div><span data-i18n="step4">אישור</span></div>
+  </div>
+
+  <div class="screenwrap">
+
+    <!-- 1. ENTRY -->
+    <section class="screen active" id="s-entry">
+      <span class="eyebrow ok"><span class="dot"></span><span data-i18n="scanTag">נסרק בהצלחה</span></span>
+      <h1 data-i18n="entryTitle">ההזמנה שלך נטענה</h1>
+      <p class="sub" data-i18n="entrySub">השלימו צ'ק-אין בטלפון עוד לפני שתגיעו לדלפק, וקבלו מספר אישור להצגה לנציג.</p>
+
+      <div class="booking">
+        <div class="scanline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7V4a1 1 0 0 1 1-1h3M17 3h3a1 1 0 0 1 1 1v3M21 17v3a1 1 0 0 1-1 1h-3M7 21H4a1 1 0 0 1-1-1v-3" stroke="#FFC72C" stroke-width="2" stroke-linecap="round"/><path d="M3 12h18" stroke="#FFC72C" stroke-width="2" stroke-linecap="round"/></svg>
+          <span data-i18n="scanFrom">מתוך אישור ההזמנה שלך</span>
+        </div>
+        <div class="conf">BUD-IL-7739204</div>
+        <div class="rowset">
+          <div><div class="k" data-i18n="bkVehicle">רכב</div><div class="v">Group F</div></div>
+          <div><div class="k" data-i18n="bkLoc">מיקום</div><div class="v" data-i18n="bkLocVal">נתב"ג (TLV)</div></div>
+          <div><div class="k" data-i18n="bkPick">איסוף</div><div class="v">02 Aug · 14:30</div></div>
+          <div><div class="k" data-i18n="bkDrop">החזרה</div><div class="v">06 Aug · 11:00</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. RULES -->
+    <section class="screen" id="s-rules">
+      <span class="eyebrow"><span class="dot"></span><span data-i18n="rulesTag">חשוב לדעת</span></span>
+      <h1 data-i18n="rulesTitle">לפני שממשיכים</h1>
+      <p class="sub" data-i18n="rulesSub">חמישה דברים שיעזרו לחוזה שלך להיפתח מהר בדלפק.</p>
+
+      <div class="ackhint">
+        <span class="count" id="ackcount">0/6</span>
+        <span data-i18n="ackHint">הקישו על כל כלל כדי לאשר שקראתם אותו.</span>
+      </div>
+
+      <button class="rule i1" data-rule="1" onclick="tapRule(this)"><div class="ic">1</div><div class="tx" data-i18n="rule1">יש להביא דרכון, רישיון נהיגה וטופס ביקורת גבולות. היעדר הטופס עלול להוסיף מס.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+      <button class="rule i2" data-rule="2" onclick="tapRule(this)"><div class="ic">2</div><div class="tx" data-i18n="rule2">לקוחות מארה"ב שמוותרים על ביטוח דרך כרטיס אשראי צריכים מכתב רשמי מחברת האשראי — אחרת חל ביטוח הבסיס של Budget.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+      <button class="rule i3" data-rule="3" onclick="tapRule(this)"><div class="ic">3</div><div class="tx" data-i18n="rule3">אזרחי ישראל משלמים מע"מ, בין אם הם גרים בארץ או בחו"ל.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+      <button class="rule i4" data-rule="4" onclick="tapRule(this)"><div class="ic">4</div><div class="tx" data-i18n="rule4">הזמנות שבוצעו באתר Budget לא-ישראלי לרוב אינן כוללות מע"מ.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+      <button class="rule i5" data-rule="5" onclick="tapRule(this)"><div class="ic">5</div><div class="tx" data-i18n="rule5">הנציג בודק את ההזמנה ומעדכן על כל שינוי במחיר לעומת המחיר באתר.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+      <button class="rule i6" data-rule="6" onclick="tapRule(this)"><div class="ic">6</div><div class="tx" data-i18n="rule6">ההזמנה מבטיחה קבוצת רכב (קטגוריה), לא דגם מסוים. החברה מחויבת לספק רכב מתוך הקבוצה, לפי בקשה.</div><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></button>
+    </section>
+
+    <!-- 3. FORM -->
+    <section class="screen" id="s-form">
+      <span class="eyebrow"><span class="dot"></span><span data-i18n="formTag">פרטי הלקוח</span></span>
+      <h1 data-i18n="formTitle">הפרטים שלך</h1>
+      <div class="hint">
+        <span>✍️</span>
+        <span data-i18n="formHint"><b>כתבו באנגלית ובאותיות גדולות (CAPITAL).</b> כך הפרטים נקלטים במערכת ללא טעויות.</span>
+      </div>
+
+      <div class="field half"><label data-i18n="fFirst">שם פרטי</label><input value="JOHN" /></div>
+      <div class="field half"><label data-i18n="fLast">שם משפחה</label><input value="MILLER" /></div>
+      <div class="field"><label data-i18n="fId">מספר ת"ז / דרכון</label><input value="X1234567" /></div>
+      <div class="field half"><label data-i18n="fDob">תאריך לידה</label><input type="date" value="1988-05-14" /></div>
+      <div class="field half"><label data-i18n="fPassCountry">מדינת הדרכון</label>
+        <select id="passc"></select></div>
+      <div class="field"><label data-i18n="fLicCountry">מדינת הרישיון</label><select id="licc"></select></div>
+
+      <div class="divider"></div>
+      <div class="grouplabel" data-i18n="grpAddress">כתובת מגורים</div>
+      <div class="field"><label data-i18n="fStreet">רחוב ומספר</label><input value="210 MAIN ST" /></div>
+      <div class="field half"><label data-i18n="fCity">עיר</label><input value="BOSTON" /></div>
+      <div class="field half"><label data-i18n="fCountry">מדינה</label><input value="USA" /></div>
+
+      <div class="divider"></div>
+      <div class="grouplabel" data-i18n="grpContact">יצירת קשר</div>
+      <div class="field">
+        <label data-i18n="fPhone">טלפון</label>
+        <div class="seg">
+          <button class="on" id="ph-il" onclick="setPhone('il')" data-i18n="phIL">ישראלי</button>
+          <button id="ph-intl" onclick="setPhone('intl')" data-i18n="phIntl">בינלאומי</button>
+        </div>
+        <input id="phone" value="+1 617 555 0142" />
+      </div>
+      <div class="field"><label data-i18n="fEmail">אימייל</label><input value="JOHN.MILLER@EMAIL.COM" /></div>
+      <div class="field"><label data-i18n="fStay">כתובת השהייה בישראל</label><input value="DAN HOTEL, TEL AVIV" /></div>
+    </section>
+
+    <!-- 4. REVIEW -->
+    <section class="screen" id="s-review">
+      <span class="eyebrow"><span class="dot"></span><span data-i18n="revTag">כמעט סיימנו</span></span>
+      <h1 data-i18n="revTitle">בדקו את הפרטים</h1>
+      <p class="sub" data-i18n="revSub">ודאו שהכול נכון. הנתונים נשלחים ישירות אל דלפק Budget.</p>
+      <div class="rev">
+        <div class="r"><span class="rk" data-i18n="rvName">שם</span><span class="rv">JOHN MILLER</span></div>
+        <div class="r"><span class="rk" data-i18n="rvId">ת"ז / דרכון</span><span class="rv">X1234567 · US</span></div>
+        <div class="r"><span class="rk" data-i18n="rvDob">תאריך לידה</span><span class="rv">14 May 1988</span></div>
+        <div class="r"><span class="rk" data-i18n="rvLic">רישיון</span><span class="rv">US</span></div>
+        <div class="r"><span class="rk" data-i18n="rvAddr">כתובת</span><span class="rv">210 MAIN ST, BOSTON, USA</span></div>
+        <div class="r"><span class="rk" data-i18n="rvPhone">טלפון</span><span class="rv">+1 617 555 0142</span></div>
+        <div class="r"><span class="rk" data-i18n="rvEmail">אימייל</span><span class="rv">JOHN.MILLER@EMAIL.COM</span></div>
+        <div class="r"><span class="rk" data-i18n="rvStay">שהייה בישראל</span><span class="rv">DAN HOTEL, TEL AVIV</span></div>
+        <div class="r"><span class="rk" data-i18n="rvBooking">הזמנה</span><span class="rv">BUD-IL-7739204</span></div>
+      </div>
+    </section>
+
+    <!-- 5. DONE -->
+    <section class="screen" id="s-done">
+      <div class="done-hero">
+        <div class="check"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="eyebrow ok" style="margin:0 auto 8px"><span class="dot"></span><span data-i18n="doneTag">הצ'ק-אין הושלם</span></span>
+        <h1 data-i18n="doneTitle">אתם מוכנים</h1>
+        <p class="sub" style="margin-bottom:0" data-i18n="doneSub">הציגו את המספר לנציג. החוזה שלכם כבר ממולא במערכת ומחכה.</p>
+      </div>
+
+      <div class="ticket">
+        <div class="cap" data-i18n="codeLbl">מספר אישור להצגה לנציג</div>
+        <div class="code" id="code">BGN-0000</div>
+        <div class="perf"></div>
+        <div class="foot">
+          <div><span data-i18n="tkBooking">הזמנה</span><b>BUD-IL-7739204</b></div>
+          <div style="text-align:end"><span data-i18n="tkLane">מסלול</span><b data-i18n="tkLaneVal">Fast Lane</b></div>
+        </div>
+      </div>
+
+      <p class="done-note" data-i18n="doneNote">הדגמה בלבד — מספר האישור מדומה. במערכת האמיתית הנתונים זורמים ישירות ל-BMS דרך מחלקת הטכנולוגיה של הקבוצה.</p>
+      <button class="cta secondary explore-cta" onclick="showExplore()" data-i18n="expOpen">בזמן ההמתנה — גלו את ישראל</button>
+      <button class="ghostbtn" onclick="restart()" data-i18n="restart">הרצת ההדגמה מחדש</button>
+    </section>
+
+    <!-- 6. EXPLORE -->
+    <section class="screen" id="s-explore">
+      <span class="eyebrow"><span class="dot"></span><span data-i18n="expTag">רעיונות לטיול</span></span>
+      <h1 data-i18n="expTitle">בזמן שאתם ממתינים</h1>
+      <p class="sub" data-i18n="expSub">מהצפון לדרום — הקישו על נקודה כדי לגלות אותה.</p>
+      <div class="mapwrap">
+        <svg class="mapsvg" viewBox="0 0 200 240" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7d9a6"/><stop offset="1" stop-color="#c3cd8f"/></linearGradient></defs>
+          <rect width="200" height="240" fill="#e9ecdf"/>
+          <path d="M0,0 L70,24 L66,30 L66,40 L56,44 L59,54 L55,70 L50,86 L44,104 L0,118 Z" fill="#bfe1ef"/>
+          <path d="M96,231 L116,231 L106,240 Z" fill="#bfe1ef"/>
+          <path d="M116,8 L130,28 L140,60 L150,92 L150,150 L158,168 L150,196 L140,206 L128,214 L106,234 L92,206 L82,184 L74,162 L66,140 L58,120 L48,112 L44,104 L50,86 L55,70 L59,54 L56,44 L66,40 L66,30 L70,24 L90,16 L102,10 Z" fill="url(#land)" stroke="#b7a86a" stroke-width="1.1"/>
+          <ellipse cx="139" cy="72" rx="5.5" ry="8" fill="#79bce0"/>
+          <ellipse cx="151" cy="173" rx="5" ry="22" fill="#79bce0"/>
+        </svg>
+        <span class="sealbl">Mediterranean</span>
+        <div id="pins"></div>
+      </div>
+      <div id="postcard" class="postcard"></div>
+      <p class="pc-note" data-i18n="expNote">בהדגמה: איורים. במערכת האמיתית — תמונות אמיתיות מאושרות.</p>
+      <button class="ghostbtn" onclick="backToDone()" data-i18n="expBack">חזרה לאישור</button>
+    </section>
+
+  </div>
+
+  <div class="action" id="action">
+    <button class="cta" id="cta" onclick="next()" data-i18n="ctaStart">התחלת צ'ק-אין</button>
+  </div>
+</div>
+
+<script>
+/* ---------------- i18n ---------------- */
+const T = {
+  he:{
+    tagline:"צ'ק-אין מהיר", demoPill:'תצוגת הדגמה · לא מחובר למערכת אמיתית',
+    step1:"הזמנה", step2:"כללים", step3:"פרטים", step4:"אישור",
+    scanTag:"נסרק בהצלחה", entryTitle:"ההזמנה שלך נטענה",
+    entrySub:"השלימו צ'ק-אין בטלפון עוד לפני שתגיעו לדלפק, וקבלו מספר אישור להצגה לנציג.",
+    scanFrom:"מתוך אישור ההזמנה שלך", bkVehicle:"רכב", bkLoc:"מיקום", bkLocVal:'נתב"ג (TLV)', bkPick:"איסוף", bkDrop:"החזרה",
+    rulesTag:"חשוב לדעת", rulesTitle:"לפני שממשיכים", rulesSub:"שישה דברים שיעזרו לחוזה שלך להיפתח מהר בדלפק.",
+    rule1:"יש להביא דרכון, רישיון נהיגה וטופס ביקורת גבולות. היעדר הטופס עלול להוסיף מס.",
+    rule2:'לקוחות מארה"ב שמוותרים על ביטוח דרך כרטיס אשראי צריכים מכתב רשמי מחברת האשראי — אחרת חל ביטוח הבסיס של Budget.',
+    rule3:'אזרחי ישראל משלמים מע"מ, בין אם הם גרים בארץ או בחו"ל.',
+    rule4:"הזמנות שבוצעו באתר Budget לא-ישראלי לרוב אינן כוללות מע\"מ.",
+    rule5:"הנציג בודק את ההזמנה ומעדכן על כל שינוי במחיר לעומת המחיר באתר.",
+    rule6:"ההזמנה מבטיחה קבוצת רכב (קטגוריה), לא דגם מסוים. החברה מחויבת לספק רכב מתוך הקבוצה, לפי בקשה.",
+    ackHint:"הקישו על כל כלל כדי לאשר שקראתם אותו.",
+    formTag:"פרטי הלקוח", formTitle:"הפרטים שלך",
+    formHint:"<b>למלא באנגלית בלבד, באותיות גדולות (CAPITAL).</b> כך הנציג יכול לטפל בכם מהר גם עם מחסום שפה.",
+    fFirst:"שם פרטי", fLast:"שם משפחה", fId:'מספר ת"ז / דרכון', fDob:"תאריך לידה",
+    fPassCountry:"מדינת הדרכון", fLicCountry:"מדינת הרישיון",
+    grpAddress:"כתובת מגורים", fStreet:"רחוב ומספר", fCity:"עיר", fCountry:"מדינה",
+    grpContact:"יצירת קשר", fPhone:"טלפון", phIL:"ישראלי", phIntl:"בינלאומי", fEmail:"אימייל", fStay:"כתובת השהייה בישראל",
+    revTag:"כמעט סיימנו", revTitle:"בדקו את הפרטים", revSub:"ודאו שהכול נכון. הנתונים נשלחים ישירות אל דלפק Budget.",
+    rvName:"שם", rvId:'ת"ז / דרכון', rvDob:"תאריך לידה", rvLic:"רישיון", rvAddr:"כתובת", rvPhone:"טלפון", rvEmail:"אימייל", rvStay:"שהייה בישראל", rvBooking:"הזמנה",
+    doneTag:"הצ'ק-אין הושלם", doneTitle:"אתם מוכנים",
+    doneSub:"הציגו את המספר לנציג. החוזה שלכם כבר ממולא במערכת ומחכה.",
+    codeLbl:"מספר אישור להצגה לנציג", tkBooking:"הזמנה", tkLane:"מסלול", tkLaneVal:"מסלול מהיר",
+    doneNote:"הדגמה בלבד — מספר האישור מדומה. במערכת האמיתית הנתונים זורמים ישירות ל-BMS דרך מחלקת הטכנולוגיה של הקבוצה.",
+    restart:"הרצת ההדגמה מחדש",
+    expTag:"רעיונות לטיול", expOpen:"בזמן ההמתנה — גלו את ישראל", expTitle:"בזמן שאתם ממתינים",
+    expSub:"מהצפון לדרום — הקישו על נקודה כדי לגלות אותה.", expBack:"חזרה לאישור",
+    expNote:"בהדגמה: איורים. במערכת האמיתית — תמונות אמיתיות מאושרות.",
+    ctaStart:"התחלת צ'ק-אין", ctaContinue:"המשך", ctaReview:"סקירה", ctaSend:"שליחה ל-Budget"
+  },
+  en:{
+    tagline:"Fast Check-in", demoPill:'Demo preview · not connected to a live system',
+    step1:"Booking", step2:"Rules", step3:"Details", step4:"Confirm",
+    scanTag:"Scanned successfully", entryTitle:"Your booking is loaded",
+    entrySub:"Finish check-in on your phone before you reach the counter, and get a number to show the agent.",
+    scanFrom:"From your booking confirmation", bkVehicle:"Vehicle", bkLoc:"Location", bkLocVal:"Ben Gurion (TLV)", bkPick:"Pick-up", bkDrop:"Return",
+    rulesTag:"Good to know", rulesTitle:"Before you continue", rulesSub:"Six things that help your contract open fast at the counter.",
+    rule1:"Bring your passport, driver's license and border-control slip. A missing slip may add tax.",
+    rule2:"US customers waiving insurance with a credit card need an official letter from the card issuer — otherwise Budget's basic insurance applies.",
+    rule3:"Israeli citizens pay Israeli VAT, whether they live here or abroad.",
+    rule4:"Bookings made on a non-Israeli Budget site usually don't include VAT.",
+    rule5:"The agent reviews your booking and tells you about any price change vs. the online price.",
+    rule6:"Your booking guarantees a vehicle category (group), not a specific model. On request, the company must provide a car from that group.",
+    ackHint:"Tap each rule to confirm you've read it.",
+    formTag:"Customer details", formTitle:"Your details",
+    formHint:"<b>Fill in English only, using CAPITAL letters.</b> This lets the agent serve you fast even across a language barrier.",
+    fFirst:"First name", fLast:"Last name", fId:"ID / Passport number", fDob:"Date of birth",
+    fPassCountry:"Passport country", fLicCountry:"License country",
+    grpAddress:"Home address", fStreet:"Street & number", fCity:"City", fCountry:"Country",
+    grpContact:"Contact", fPhone:"Phone", phIL:"Israeli", phIntl:"International", fEmail:"Email", fStay:"Address where you're staying in Israel",
+    revTag:"Almost done", revTitle:"Check your details", revSub:"Make sure everything is correct. Your data goes straight to the Budget counter.",
+    rvName:"Name", rvId:"ID / Passport", rvDob:"Date of birth", rvLic:"License", rvAddr:"Address", rvPhone:"Phone", rvEmail:"Email", rvStay:"Staying in Israel", rvBooking:"Booking",
+    doneTag:"Check-in complete", doneTitle:"You're all set",
+    doneSub:"Show this number to the agent. Your contract is already pre-filled and waiting.",
+    codeLbl:"Completion number — show to agent", tkBooking:"Booking", tkLane:"Lane", tkLaneVal:"Fast Lane",
+    doneNote:"Demo only — the completion number is simulated. In the live system, data flows straight into BMS via the group's technology department.",
+    restart:"Run the demo again",
+    expTag:"Trip ideas", expOpen:"While you wait — explore Israel", expTitle:"While you wait",
+    expSub:"From north to south — tap a spot to discover it.", expBack:"Back to confirmation",
+    expNote:"Demo: illustrations. In the live app — real approved photos.",
+    ctaStart:"Start check-in", ctaContinue:"Continue", ctaReview:"Review", ctaSend:"Send to Budget"
+  },
+  ru:{
+    demoPill:'Демо-версия · не подключено к реальной системе',
+    step1:"Бронь", step2:"Правила", step3:"Данные", step4:"Проверка",
+    scanTag:"Успешно отсканировано", entryTitle:"Ваше бронирование загружено",
+    entrySub:"Пройдите регистрацию в телефоне до стойки и получите номер для агента.",
+    scanFrom:"Из подтверждения бронирования", bkVehicle:"Автомобиль", bkLoc:"Локация", bkLocVal:"Бен-Гурион (TLV)", bkPick:"Получение", bkDrop:"Возврат",
+    rulesTag:"Важно знать", rulesTitle:"Перед продолжением", rulesSub:"Шесть пунктов, чтобы договор оформился быстро на стойке.",
+    rule1:"Возьмите паспорт, водительские права и погранконтрольный талон. Без талона может добавиться налог.",
+    rule2:"Клиентам из США, отказывающимся от страховки через кредитную карту, нужно официальное письмо от банка-эмитента — иначе применяется базовая страховка Budget.",
+    rule3:"Граждане Израиля платят НДС независимо от того, живут ли они здесь или за границей.",
+    rule4:"Бронирования на не-израильском сайте Budget обычно не включают НДС.",
+    rule5:"Агент проверяет бронирование и сообщает о любом изменении цены по сравнению с онлайн-ценой.",
+    rule6:"Бронирование гарантирует категорию автомобиля (группу), а не конкретную модель. По запросу компания обязана предоставить автомобиль из этой группы.",
+    ackHint:"Нажмите на каждое правило, чтобы подтвердить прочтение.",
+    formTag:"Данные клиента", formTitle:"Ваши данные",
+    formHint:"<b>Заполняйте только на английском, ЗАГЛАВНЫМИ буквами.</b> Так агент обслужит вас быстро даже при языковом барьере.",
+    fFirst:"Имя", fLast:"Фамилия", fId:"Номер удостоверения / паспорта", fDob:"Дата рождения",
+    fPassCountry:"Страна паспорта", fLicCountry:"Страна прав",
+    grpAddress:"Домашний адрес", fStreet:"Улица и дом", fCity:"Город", fCountry:"Страна",
+    grpContact:"Контакты", fPhone:"Телефон", phIL:"Израильский", phIntl:"Зарубежный", fEmail:"Эл. почта", fStay:"Адрес проживания в Израиле",
+    revTag:"Почти готово", revTitle:"Проверьте данные", revSub:"Убедитесь, что всё верно. Данные идут прямо на стойку Budget.",
+    rvName:"Имя", rvId:"Удостоверение / паспорт", rvDob:"Дата рождения", rvLic:"Права", rvAddr:"Адрес", rvPhone:"Телефон", rvEmail:"Эл. почта", rvStay:"Проживание в Израиле", rvBooking:"Бронь",
+    doneTag:"Регистрация завершена", doneTitle:"Всё готово",
+    doneSub:"Покажите этот номер агенту. Ваш договор уже заполнен и ждёт.",
+    codeLbl:"Номер подтверждения — покажите агенту", tkBooking:"Бронь", tkLane:"Линия", tkLaneVal:"Быстрая линия",
+    doneNote:"Только демо — номер смоделирован. В реальной системе данные поступают прямо в BMS через технологический отдел группы.",
+    restart:"Запустить демо снова",
+    expTag:"Идеи для поездки", expOpen:"Пока вы ждёте — откройте Израиль", expTitle:"Пока вы ждёте",
+    expSub:"С севера на юг — нажмите на точку, чтобы узнать больше.", expBack:"Назад к подтверждению",
+    expNote:"В демо — иллюстрации. В реальном приложении — настоящие фото.",
+    ctaStart:"Начать регистрацию", ctaContinue:"Продолжить", ctaReview:"Проверить", ctaSend:"Отправить в Budget"
+  },
+  fr:{
+    demoPill:'Aperçu démo · non connecté à un vrai système',
+    step1:"Réservation", step2:"Règles", step3:"Vos infos", step4:"Confirmer",
+    scanTag:"Scanné avec succès", entryTitle:"Votre réservation est chargée",
+    entrySub:"Terminez l'enregistrement sur votre téléphone avant le comptoir et recevez un numéro pour l'agent.",
+    scanFrom:"Depuis votre confirmation de réservation", bkVehicle:"Véhicule", bkLoc:"Lieu", bkLocVal:"Ben Gourion (TLV)", bkPick:"Prise", bkDrop:"Retour",
+    rulesTag:"Bon à savoir", rulesTitle:"Avant de continuer", rulesSub:"Six points pour que votre contrat s'ouvre vite au comptoir.",
+    rule1:"Apportez votre passeport, votre permis de conduire et le formulaire de contrôle des frontières. Son absence peut ajouter une taxe.",
+    rule2:"Les clients américains renonçant à l'assurance via carte de crédit doivent fournir une lettre officielle de l'émetteur — sinon l'assurance de base Budget s'applique.",
+    rule3:"Les citoyens israéliens paient la TVA, qu'ils vivent ici ou à l'étranger.",
+    rule4:"Les réservations faites sur un site Budget non israélien n'incluent généralement pas la TVA.",
+    rule5:"L'agent vérifie votre réservation et vous informe de tout changement de prix par rapport au tarif en ligne.",
+    rule6:"La réservation garantit une catégorie de véhicule (groupe), pas un modèle précis. Sur demande, la société doit fournir une voiture de cette catégorie.",
+    ackHint:"Touchez chaque règle pour confirmer que vous l'avez lue.",
+    formTag:"Coordonnées du client", formTitle:"Vos informations",
+    formHint:"<b>Remplissez en anglais uniquement, en MAJUSCULES.</b> Ainsi l'agent vous sert rapidement même avec la barrière de la langue.",
+    fFirst:"Prénom", fLast:"Nom", fId:"Numéro d'identité / passeport", fDob:"Date de naissance",
+    fPassCountry:"Pays du passeport", fLicCountry:"Pays du permis",
+    grpAddress:"Adresse du domicile", fStreet:"Rue et numéro", fCity:"Ville", fCountry:"Pays",
+    grpContact:"Contact", fPhone:"Téléphone", phIL:"Israélien", phIntl:"International", fEmail:"E-mail", fStay:"Adresse de séjour en Israël",
+    revTag:"Presque terminé", revTitle:"Vérifiez vos infos", revSub:"Assurez-vous que tout est correct. Vos données vont directement au comptoir Budget.",
+    rvName:"Nom", rvId:"Identité / passeport", rvDob:"Date de naissance", rvLic:"Permis", rvAddr:"Adresse", rvPhone:"Téléphone", rvEmail:"E-mail", rvStay:"Séjour en Israël", rvBooking:"Réservation",
+    doneTag:"Enregistrement terminé", doneTitle:"Tout est prêt",
+    doneSub:"Montrez ce numéro à l'agent. Votre contrat est déjà pré-rempli et vous attend.",
+    codeLbl:"Numéro de confirmation — à montrer à l'agent", tkBooking:"Réservation", tkLane:"File", tkLaneVal:"File rapide",
+    doneNote:"Démo uniquement — le numéro est simulé. Dans le vrai système, les données vont directement dans BMS via le service technologique du groupe.",
+    restart:"Relancer la démo",
+    expTag:"Idées de voyage", expOpen:"En attendant — découvrez Israël", expTitle:"En attendant",
+    expSub:"Du nord au sud — touchez un lieu pour le découvrir.", expBack:"Retour à la confirmation",
+    expNote:"Démo : illustrations. Dans l'app réelle — vraies photos validées.",
+    ctaStart:"Commencer l'enregistrement", ctaContinue:"Continuer", ctaReview:"Vérifier", ctaSend:"Envoyer à Budget"
+  }
+};
+
+const COUNTRIES = ["United States","United Kingdom","France","Germany","Russia","Ukraine","Canada","Italy","Spain","Netherlands","Australia","Other"];
+
+let lang = 'he';
+const flow = ['s-entry','s-rules','s-form','s-review','s-done'];
+let idx = 0;
+
+function buildCountries(){
+  ['passc','licc'].forEach(id=>{
+    const sel = document.getElementById(id);
+    sel.innerHTML = COUNTRIES.map(c=>`<option${c==='United States'?' selected':''}>${c}</option>`).join('');
+  });
+}
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = (l==='he') ? 'rtl' : 'ltr';
+  ['he','en','ru','fr'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('on', x===l));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(T[l][k]!==undefined){ el.innerHTML = T[l][k]; }
+  });
+  updateCTA();
+  refreshExplore();
+}
+
+function showStep(){
+  // steps map: entry->1, rules->2, form->3, review->4, done->all done
+  const step = Math.min(idx+1, 4);
+  document.querySelectorAll('#steps .st').forEach(s=>{
+    const n = +s.dataset.step;
+    s.classList.toggle('active', n===step && idx<4);
+    s.classList.toggle('done', n<step || idx===4);
+  });
+}
+
+function updateCTA(){
+  const cta = document.getElementById('cta');
+  const action = document.getElementById('action');
+  if(idx===4){ action.style.display='none'; return; }
+  action.style.display='block';
+  let key='ctaStart', sec=false;
+  if(idx===0) key='ctaStart';
+  else if(idx===1) key='ctaContinue';
+  else if(idx===2) key='ctaReview';
+  else if(idx===3){ key='ctaSend'; sec=false; }
+  cta.textContent = T[lang][key];
+  cta.classList.toggle('secondary', idx===3);
+  cta.disabled = (idx===1 && rulesRead.size < RULES_TOTAL);
+}
+
+function render(){
+  document.querySelectorAll('.screen').forEach((s,i)=>s.classList.toggle('active', flow[idx]===s.id));
+  document.querySelector('.screenwrap').scrollTop = 0;
+  showStep();
+  updateCTA();
+}
+
+function next(){
+  if(idx===1 && rulesRead.size < RULES_TOTAL) return;
+  if(idx < flow.length-1){
+    idx++;
+    if(idx===4){ document.getElementById('code').textContent = genCode(); }
+    render();
+  }
+}
+
+const RULES_TOTAL = 6;
+let rulesRead = new Set();
+function tapRule(el){
+  const n = el.dataset.rule;
+  if(rulesRead.has(n)){ rulesRead.delete(n); el.classList.remove('read'); }
+  else { rulesRead.add(n); el.classList.add('read'); }
+  const c = document.getElementById('ackcount');
+  c.textContent = rulesRead.size + '/' + RULES_TOTAL;
+  c.classList.toggle('full', rulesRead.size===RULES_TOTAL);
+  updateCTA();
+}
+
+function setPhone(kind){
+  document.getElementById('ph-il').classList.toggle('on', kind==='il');
+  document.getElementById('ph-intl').classList.toggle('on', kind==='intl');
+  const ph = document.getElementById('phone');
+  ph.value = kind==='il' ? '05' : '+1 ';
+  ph.focus();
+}
+
+function genCode(){
+  const n = Math.floor(1000 + Math.random()*8999);
+  return 'BGN-' + n;
+}
+
+function restart(){
+  idx = 0;
+  rulesRead.clear();
+  document.querySelectorAll('.rule.read').forEach(r=>r.classList.remove('read'));
+  const c = document.getElementById('ackcount');
+  c.textContent = '0/' + RULES_TOTAL; c.classList.remove('full');
+  showScreenId(null); // clear explore if open
+  render();
+}
+
+/* ---------------- explore map ---------------- */
+const PLACES = [
+  { id:'galilee', x:69.5, y:30, grad:['#1b6ca8','#8fd0c3'], motif:'water',
+    name:{he:'הכנרת',en:'Sea of Galilee',ru:'Галилейское море',fr:'Lac de Tibériade'},
+    blurb:{he:'אגם מתוק שקט בצפון, מוקף גבעות ירוקות.',en:'A calm freshwater lake ringed by green hills.',ru:'Спокойное пресноводное озеро среди зелёных холмов.',fr:'Un lac paisible entouré de collines verdoyantes.'} },
+  { id:'haifa', x:30, y:20, grad:['#2e7d32','#a9db55'], motif:'garden',
+    name:{he:'חיפה — הגנים הבהאים',en:'Haifa — Baháʼí Gardens',ru:'Хайфа — Бахайские сады',fr:'Haïfa — Jardins bahá’ís'},
+    blurb:{he:'מדרגות גנים ירוקות היורדות אל הים.',en:'Terraced gardens cascading down to the sea.',ru:'Террасные сады, спускающиеся к морю.',fr:'Jardins en terrasses descendant vers la mer.'} },
+  { id:'telaviv', x:26.5, y:33, grad:['#12a5c4','#ffd36b'], motif:'beach',
+    name:{he:'תל אביב',en:'Tel Aviv',ru:'Тель-Авив',fr:'Tel-Aviv'},
+    blurb:{he:'חופים, בתי קפה ובאוהאוס לבן לאורך הים.',en:'Beaches, cafés and white Bauhaus by the sea.',ru:'Пляжи, кафе и белый Баухаус у моря.',fr:'Plages, cafés et Bauhaus blanc au bord de mer.'} },
+  { id:'jerusalem', x:50, y:46, grad:['#c8974b','#f4e4b6'], motif:'dome',
+    name:{he:'ירושלים',en:'Jerusalem',ru:'Иерусалим',fr:'Jérusalem'},
+    blurb:{he:'העיר העתיקה, בנויה אבן ירושלמית זהובה.',en:'The Old City, built of golden Jerusalem stone.',ru:'Старый город из золотистого камня.',fr:'La vieille ville en pierre dorée.'} },
+  { id:'deadsea', x:75.5, y:70, grad:['#6f93b6','#e9e3cf'], motif:'salt',
+    name:{he:'ים המלח',en:'Dead Sea',ru:'Мёртвое море',fr:'Mer Morte'},
+    blurb:{he:'הנקודה הנמוכה בעולם — צפים בקלות על המים.',en:'Earth’s lowest point — float effortlessly.',ru:'Самая низкая точка Земли — легко лежать на воде.',fr:'Le point le plus bas de la Terre — on y flotte.'} },
+  { id:'masada', x:73, y:77.5, grad:['#b5642f','#f2b96f'], motif:'mountain',
+    name:{he:'מצדה',en:'Masada',ru:'Масада',fr:'Massada'},
+    blurb:{he:'מבצר מדברי עתיק על צוק מעל ים המלח.',en:'An ancient desert fortress on a cliff.',ru:'Древняя пустынная крепость на скале.',fr:'Ancienne forteresse du désert sur une falaise.'} },
+  { id:'eilat', x:53, y:96, grad:['#0090ad','#00d6b0'], motif:'coral',
+    name:{he:'אילת',en:'Eilat',ru:'Эйлат',fr:'Eilat'},
+    blurb:{he:'ים אדום, שוניות אלמוגים ודגים צבעוניים.',en:'Red Sea coral reefs and colourful fish.',ru:'Коралловые рифы и разноцветные рыбы.',fr:'Récifs coralliens et poissons colorés.'} }
+];
+
+function motifSVG(m){
+  const s='stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"';
+  const scenes = {
+    water:`<circle cx="78" cy="15" r="7" fill="#fff" opacity=".9"/><path ${s} d="M8 26c6-5 12-5 18 0s12 5 18 0 12-5 18 0 12 5 18 0"/><path ${s} d="M8 37c6-5 12-5 18 0s12 5 18 0 12-5 18 0 12 5 18 0"/>`,
+    garden:`<path ${s} d="M22 12h56M28 22h44M34 32h32M40 42h20M46 52h8"/><circle cx="50" cy="8" r="3" fill="#fff"/>`,
+    beach:`<circle cx="20" cy="18" r="8" fill="#fff" opacity=".95"/><path ${s} d="M72 12v20M72 16c-6-2-12 0-14 4 5 2 11 1 14-4zM72 16c6-2 12 0 14 4-5 2-11 1-14-4z"/><path ${s} d="M6 44c6-4 12-4 18 0s12 4 18 0 12-4 18 0 12 4 18 0"/>`,
+    dome:`<path ${s} d="M18 52h64"/><path ${s} d="M34 52V32a16 16 0 0 1 32 0v20"/><path ${s} d="M50 12v8"/><path ${s} d="M24 52v-8M76 52v-8"/>`,
+    salt:`<path d="M74 20a10 10 0 0 1-20 0" fill="#fff" opacity=".9"/><path ${s} d="M8 34c6-3 12-3 18 0s12 3 18 0 12-3 18 0 12 3 18 0"/><path ${s} d="M8 44c6-3 12-3 18 0s12 3 18 0 12-3 18 0 12 3 18 0"/><path ${s} d="M40 14l3 4-3 4-3-4z"/>`,
+    mountain:`<path ${s} d="M10 52h80"/><path ${s} d="M26 52l10-26h20l10 26"/><path ${s} d="M36 26h20"/><circle cx="76" cy="14" r="6" fill="#fff" opacity=".9"/>`,
+    coral:`<path ${s} d="M36 30c8-9 24-9 30 0-6 9-22 9-30 0z"/><path d="M66 30l11-7v14z" fill="#fff"/><circle cx="46" cy="28" r="1.6" fill="#fff"/><path ${s} d="M16 52c0-8 4-10 4-16M24 52c0-6 3-8 3-12M12 52c0-5 3-6 3-10"/>`
+  };
+  return `<svg viewBox="0 0 100 60" preserveAspectRatio="xMidYMid slice">${scenes[m]||''}</svg>`;
+}
+
+let currentPlace = 0;
+
+function buildPins(){
+  const wrap = document.getElementById('pins');
+  wrap.innerHTML = PLACES.map((p,i)=>{
+    const short = p.name[lang].split(' — ')[0];
+    const flip = p.x >= 50 ? ' flip' : '';
+    return `<button class="pin${i===currentPlace?' on':''}${flip}" style="left:${p.x}%;top:${p.y}%" onclick="selectPlace(${i})">
+      <span class="dot"></span><span class="plbl">${short}</span></button>`;
+  }).join('');
+}
+
+function renderPostcard(){
+  const p = PLACES[currentPlace];
+  const g = `linear-gradient(135deg,${p.grad[0]},${p.grad[1]})`;
+  document.getElementById('postcard').innerHTML =
+    `<div class="pc-scene" style="background:${g}">${motifSVG(p.motif)}
+       <span class="pc-tag">${T[lang].expTag}</span></div>
+     <div class="pc-body"><div class="pc-name">${p.name[lang]}</div>
+       <div class="pc-blurb">${p.blurb[lang]}</div></div>`;
+}
+
+function selectPlace(i){
+  currentPlace = i;
+  document.querySelectorAll('.pin').forEach((el,k)=>el.classList.toggle('on', k===i));
+  renderPostcard();
+}
+
+function showScreenId(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active', id!==null && s.id===id));
+  if(id){ document.querySelector('.screenwrap').scrollTop = 0; }
+}
+function showExplore(){ buildPins(); renderPostcard(); showScreenId('s-explore'); }
+function backToDone(){ showScreenId('s-done'); }
+function refreshExplore(){
+  if(document.getElementById('s-explore').classList.contains('active')){ buildPins(); renderPostcard(); }
+}
+
+buildCountries();
+setLang('he');
+render();
+</script>
+</body>
+</html>
